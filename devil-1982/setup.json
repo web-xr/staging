@@ -1,0 +1,84 @@
+{
+
+    "loading" : {
+        "title" : { "large" : "Devil (1982)", "small" : "Jean-Michel Basquiat" },
+        "description" : [
+            "Jean-Michel Basquiat's Untitled is one of the greatest masterpieces of the modern era. Coming from the esteemed collection of Yusaku Maezawa, this monumental tour de force—one of the largest of the artist's career—leads the New York auction season and will be offered in the Evening Sale of 20th Century & Contemporary Art on 18 May",
+            "Executed in 1982, the watershed year which shot the artist to international stardom, this extraordinary work is from a small series created in Modena, Italy, where Basquiat visited and exhibited at the invitation of the dealer Emilio Mazzoli during two periods in the early 1980s. Three groundbreaking self-portraits that Basquiat executed during the second trip, including Untitled, have made this pivotal chapter one of the most desirable of his career."
+        ],
+        "total" : 23
+    },
+
+    "ground" : {
+        "locate" : { "x" : 0, "z" : -10, "a" : 18, "b" : 30 },
+        "navigate" : {
+            "speed" : 150,
+            "function" : "power1"
+        }
+    },
+
+    "audio" : {
+        "background" : {
+            "source" : "audio/background.mp3",
+            "volume" : 0.8,
+            "loop" : true
+        },
+        "boombox" : {
+            "volume" : 1,
+            "autoplay" : false,
+            "locate" : { "x" : 4.061, "y" : 1.0549, "z" : -8.3380 },
+            "current" : 0,
+            "playlist" : [
+                "audio/boombox/track_1.mp3",
+                "audio/boombox/track_2.mp3",
+                "audio/boombox/track_3.mp3"
+            ]
+        }
+    },
+
+    "video" : {
+        "projector" : {
+            "source" : "video/projector.mp4",
+            "locate" : { "x" : 0.099, "y" : 2.701, "z" : -45.00, "a" : 8.60, "b" : 4.60 }
+        }
+    },
+
+    "models" : {
+        "warehouse" : {
+            "source" : "models/warehouse/scene.fbx",
+            "locate" : {
+                "position" : { "x" : 0, "y" : 0, "z" : -14 },
+                "rotation" : { "x" : 0, "y" : 3.141592653589793, "z" : 0 },
+                "scale" : { "x" : 0.01, "y" : 0.01, "z" : 0.01 }
+            }
+        }
+    },
+
+    "lights" : [
+        {
+            "color" : "#FFFFFF",
+            "locate" : { "x" : 0, "y" : 3, "z" : 15 },
+            "intensity" : 0,
+            "distance" : 25
+        },
+        {
+            "color" : "#FFFFFF",
+            "locate" : { "x" : 0, "y" : 3, "z" : -32 },
+            "intensity" : 0,
+            "distance" : 25
+        },
+        {
+            "color" : "#FFFFFF",
+            "locate" : { "x" : 0, "y" : 3, "z" : -50 },
+            "intensity" : 0,
+            "distance" : 25
+        },
+        {
+            "color" : "#FFFFFF",
+            "locate" : { "x" : 0.099, "y" : 2.701, "z" : -61.008 },
+            "intensity" : 0,
+            "distance" : 25
+        }
+    ]
+
+}

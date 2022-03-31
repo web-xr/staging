@@ -1,0 +1,79 @@
+* {
+    touch-action: none;
+    outline: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    margin: 0px;
+    overflow: hidden;
+    background-color: #000;
+}
+
+video { display: none; }
+
+#loading {
+    background-image: url(../images/loading.jpg);
+    background-color: #FFF;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 2;
+    top: 0px;
+    left: 0px;
+    transition: opacity 1s;
+}
+
+@media (orientation: portrait) {
+    #loading { background-size: cover; }
+}
+
+@media (orientation: landscape) {
+    #loading { background-size: contain; }
+}
+
+.details {
+    width: calc(40vw - 60px);
+    height: calc(100vh - 60px);
+    background-color: #FFF;
+    padding: 30px;
+    font-family: Arial Black;
+    position: fixed;
+    z-index: 3;
+    top: 0px;
+    left: 0px;
+    transition: left 1s;
+}
+
+.title_main {
+    font-size: 4vw;
+    line-height: 4vw;
+    text-align: right;
+    margin-top: 15vh;
+}
+
+.title_auth {
+    font-size: 2.5vw;
+    text-align: right;
+}
+
+.parag_main {
+    text-align: justify;
+    margin-top: 15px;
+    font-family: Arial;
+    font-size: 1vw;
+}
+
+#progress {
+    margin: 50px 40px 0px 40px;
+    height: 5px;
+    background-color: rgba(0,0,0,0.2);
+    text-align: center;
+    transition-duration: 0.2s;
+    transition-property: height, color;
+    line-height: 5vw;
+}
