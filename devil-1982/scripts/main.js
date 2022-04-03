@@ -13,23 +13,65 @@ modules.scene.add(modules.group)
 modules.renderer.setPixelRatio(window.devicePixelRatio * 0.8)
 modules.light.intensity = 0.6
 
-modules.group.add(
-    new THREE.HemisphereLight(0xffeeb1, 0x080820, 1)
-)
-
-// outline postprocessing
-let outPass = TrinityEngine.createEffect(
-    'Outline', modules.scene, modules.camera, modules.composer,
-    { edgeStrength : 2, visibleEdgeColor : '#FFFFFF', enabled : true }
-)
+// add hemisphere light
+modules.group.add(new THREE.HemisphereLight(0xffeeb1, 0x080820, 1))
 
 // setup controls
 TrinityEngine.setupControls(
     'EXACT', modules.controls,
     { x : 0, y : 1.5, z : 0.0001 },
     { x : 0, y : 1.5, z : 0 },
-    { maxPolarAngle : 1.8, minPolarAngle : 0.8, enableZoom : true }
+    { maxPolarAngle : 1.8, minPolarAngle : 0.8, enableZoom : false }
 )
+
+modules.renderer.xr.addEventListener('sessionend', () => {
+    TrinityEngine.setupControls(
+        'EXACT', modules.controls,
+        { x : 0, y : 1.5, z : 0.0001 },
+        { x : 0, y : 1.5, z : 0 },
+        { maxPolarAngle : 1.8, minPolarAngle : 0.8, enableZoom : false }
+    )
+})
+
+let boundL = 0
+let boundR = 0
+let boundT = 0
+let boundB = 0
+
+let loadBoundData = () => {
+    const groundX = setup.ground.locate.x
+    const groundZ = setup.ground.locate.z
+    const groundA = setup.ground.locate.a
+    const groundB = setup.ground.locate.b
+    boundL = -((groundA / 2) - groundX)
+    boundR = (groundA / 2) + groundX
+    boundT = -((groundB / 2) - groundZ)
+    boundB = (groundB / 2) + groundZ
+}
+
+let checkBound = (method, value) => {
+    const x = modules.xr.controls.position.x
+    const z = modules.xr.controls.position.z
+    modules.xr.controls[method](value)
+    if(x < boundL) { modules.xr.controls.position.x = boundL }
+    if(x > boundR) { modules.xr.controls.position.x = boundR }
+    if(z < boundT) { modules.xr.controls.position.z = boundT }
+    if(z > boundB) { modules.xr.controls.position.z = boundB }
+}
+
+// xr axes navigate events
+TrinityEngine.createEventXR('axesup', () => {
+    checkBound('translateZ', setup.ground.navigate.xr.speed.walk * -1)
+})
+TrinityEngine.createEventXR('axesdown', () => {
+    checkBound('translateZ', setup.ground.navigate.xr.speed.walk)
+})
+TrinityEngine.createEventXR('axesleft', () => {
+    modules.xr.controls.rotateY(setup.ground.navigate.xr.speed.rotate)
+})
+TrinityEngine.createEventXR('axesright', () => {
+    modules.xr.controls.rotateY(setup.ground.navigate.xr.speed.rotate * -1)
+})
 
 // screen resize setup
 window.addEventListener('resize', function() {
@@ -46,6 +88,7 @@ window.addEventListener('load', () => {
 let loadCanvas = (setup_in, files_in) => {
     setup = setup_in
     files = files_in
+    loadBoundData()
     loadGround()
     loadModels()
     loadLights()
@@ -58,22 +101,39 @@ let loadModels = () => {
     let obj = setup.models.warehouse
     TrinityEngine.setupObject(obj.source, obj.locate)
     modules.group.add(obj.source)
-
     // setup boombox
     let bbx = TrinityEngine.findByName(obj.source, 'Boombox')
     modules.boombox = bbx
+    modules.boombox.material.transparent = true
     // mouseenter + highlight object
     TrinityEngine.createEvent('mouseenter', bbx, function(e) {
-        outPass.selectedObjects = [bbx]
+        bbx.material.color.r = 2
+        bbx.material.color.g = 2
+        bbx.material.color.b = 2
         modules.renderer.domElement.style.cursor = 'pointer'
     })
     // mouseleave + remove highlight object
     TrinityEngine.createEvent('mouseleave', bbx, function(e) {
-        outPass.selectedObjects = []
+        bbx.material.color.r = 0.800000011920929
+        bbx.material.color.g = 0.800000011920929
+        bbx.material.color.b = 0.800000011920929
         modules.renderer.domElement.style.cursor = 'default'
     })
     // click + focus object
     TrinityEngine.createEvent('click', bbx, toggleBoombox)
+    TrinityEngine.createEventXR('firststart', bbx, toggleBoombox)
+
+    TrinityEngine.createEventXR('focusstart', bbx, () => {
+        bbx.material.color.r = 2
+        bbx.material.color.g = 2
+        bbx.material.color.b = 2
+    })
+    
+    TrinityEngine.createEventXR('focusend', bbx, () => {
+        bbx.material.color.r = 0.800000011920929
+        bbx.material.color.g = 0.800000011920929
+        bbx.material.color.b = 0.800000011920929
+    })
 }
 
 let loadLights = () => {
@@ -150,8 +210,8 @@ let loadGround = () => {
         // tween camera
         TrinityEngine.tweenControls('FIXED', modules.controls,  // type, controls
             { x : e.point.x, z : e.point.z },                   // new target pos
-            e.distance * setup.ground.navigate.speed,           // duration
-            setup.ground.navigate.function,                     // ease function
+            e.distance * setup.ground.navigate.gl.speed.walk,   // duration
+            setup.ground.navigate.gl.function,                  // ease function
             () => {                                             // callback
                 modules.controls.rotateSpeed = -0.3
                 // unlock retical
@@ -183,7 +243,7 @@ let loadSounds = () => {
     let speaker = TrinityEngine.createObject({
         Box : [0.1, 0.1, 0.1],
         MeshBasic : { color : 'red' }
-    }, { visible : true, position : setup.audio.boombox.locate })
+    }, { visible : false, position : setup.audio.boombox.locate })
     modules.group.add(speaker)
     modules.speaker = speaker
     speaker.onEnded = function() { toggleBoombox() }
@@ -192,17 +252,21 @@ let loadSounds = () => {
 }
 
 let toggleBoombox = () => {
-    if(setup.audio.boombox.context.isPlaying) {
-        setup.audio.boombox.current++
-        if(setup.audio.boombox.current === setup.audio.boombox.playlist.length) {
-            setup.audio.boombox.current = 0
-        }
-        setup.audio.boombox.context.stop()
-        setup.audio.boombox.context.setBuffer(
-            setup.audio.boombox.playlist[setup.audio.boombox.current]
-        )
+    // get next context index
+    setup.audio.boombox.current++
+    if(setup.audio.boombox.current === setup.audio.boombox.playlist.length) {
+        setup.audio.boombox.current = 0
     }
-    setup.audio.boombox.context.play()
+    // stop if playing
+    if(setup.audio.boombox.context.isPlaying) {
+        setup.audio.boombox.context.stop()
+    }
+    // get context
+    const context = setup.audio.boombox.playlist[setup.audio.boombox.current]
+    if(context !== null) {
+        setup.audio.boombox.context.setBuffer(context)
+        setup.audio.boombox.context.play()
+    }
 }
 
 let createVideoTexture = source => {
@@ -213,20 +277,19 @@ let createVideoTexture = source => {
     video.src = source
     video.play()
     document.body.appendChild(video)
-    return new THREE.VideoTexture(video)
+    let texture = new THREE.VideoTexture(video)
+    texture.anisotropy = 0.001
+    return texture
 }
 
 let loadVideo = () => {
-
-    let projector = new THREE.Mesh(
-        new THREE.BoxGeometry(1, 1, 1),
-        new THREE.MeshBasicMaterial({
-            color : '#555',
-            map : createVideoTexture(setup.video.projector.source)
-        })
-    )
-
-    TrinityEngine.setupObject(projector, {
+    // projector
+    let projector = TrinityEngine.createObject({
+        Box : [1, 1, 1],
+        MeshBasic : {
+            color : '#EEE', map : createVideoTexture(setup.video.projector.source)
+        }
+    }, {
         position : setup.video.projector.locate,
         scale : {
             x : setup.video.projector.locate.a,
@@ -234,129 +297,42 @@ let loadVideo = () => {
             z : 0.3,
         }
     })
-
-    window.projector = projector
-    TrinityEngine.checkTransform(projector)
-
+    modules.projector = projector
     modules.group.add(projector)
+    // tv boxes
+    let tvmap = createVideoTexture(setup.video.tvbox.source)
+    setup.video.tvbox.displays.forEach((position, i) => {
+        let tvbox = TrinityEngine.createObject({
+            Box : [1, 1, 1],
+            MeshBasic : { color : '#EEE', map : tvmap }
+        }, position)
+        modules.scene.add(tvbox)
+        if(i === 1) {
+            TrinityEngine.checkTransform(tvbox)
+            window.tvbox = tvbox
+        }
+    })
 }
 
 let playCanvas = () => {
-    // play audio contexts
+    // append vr button
+    document.body.appendChild(modules.xr.button)
+    // play background audio
     setup.audio.background.context.play()
-    if(setup.audio.boombox.autoplay) { setup.audio.boombox.context.play() }
+    // play boombox audio
+    if(setup.audio.boombox.autoplay) {
+        setup.audio.boombox.context.play()
+    }
     // start render loop
     modules.renderer.setAnimationLoop(() => {
         modules.composer.render()
         modules.controls.update()
+        modules.xr.update()
+        modules.tween.render()
         if(modules.renderer.xr.isPresenting) {
-            findXREvent()
-            outPass.enabled = false
+            modules.retical.visible = false
         } else {
-            outPass.enabled = true
+            modules.retical.visible = true
         }
     })
-}
-
-
-
-
-
-
-let tempMatrix = new THREE.Matrix4()
-let raycaster = new THREE.Raycaster()
-
-let xrmoving = false
-
-let xrdata = { x : null, y : null, z : null, object : null }
-
-let findXREvent = () => {
-    tempMatrix.identity().extractRotation(modules.controller.matrixWorld)
-    raycaster.ray.origin.setFromMatrixPosition(modules.controller.matrixWorld)
-    raycaster.ray.direction.set(0, 0, - 1).applyMatrix4(tempMatrix)
-    const arr = raycaster.intersectObjects([modules.ground, modules.boombox], false)
-    if(arr.length > 0) {
-        if(arr[0].object) {
-            let e = arr[0]
-            // store controller data
-            xrdata = {
-                x : e.point.x,
-                y : e.point.y,
-                z : e.point.z,
-                object : arr[0].object.name
-            }
-            // update retical position
-            if(!xrmoving && arr[0].object.name === 'xrground') {
-                modules.retical.visible = true
-                modules.retical.position.set(e.point.x, 0.04, e.point.z)
-                modules.retical.scale.set(0.5, 0.5, 0.5)
-                modules.retical.material.opacity = 0.1
-                modules.retical.material.needsUpdate = true
-            }
-        }
-    } else {
-        // lost ground contact
-        if(!xrmoving) {
-            modules.retical.position.set(0, -1, 0)
-            xrdata = { x : null, y : null, z : null, object : null }
-        }
-    }
-}
-
-let onXRSelect = () => {
-    if(xrdata.object === 'xrground') {
-        modules.group.position.set(
-            modules.group.position.x - xrdata.x,
-            modules.group.position.y,
-            modules.group.position.z - xrdata.z,
-        )
-    } else if(xrdata.object === 'Boombox') {
-        toggleBoombox()
-    }
-}
-
-window.addEventListener('load', () => {
-
-    let controller = modules.renderer.xr.getController( 0 )
-
-    // controller connect
-    controller.addEventListener('connected', function (event) {
-        modules.ring = buildController(event.data)
-        this.add(modules.ring)
-    })
-
-    // controller disconnect
-    controller.addEventListener('disconnected', function () {
-        this.remove(modules.ring)
-    })
-
-    controller.addEventListener('selectstart', onXRSelect)
-
-    modules.controller = controller
-    modules.scene.add(controller)
-
-    const controllerModelFactory = new XRControllerModelFactory()
-    controllerGrip = modules.renderer.xr.getControllerGrip(0)
-    controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip))
-    modules.group.add(controllerGrip)
-
-    // append vr button
-    document.body.appendChild(VRButton.createButton(modules.renderer))
-    modules.renderer.xr.enabled = true
-})
-
-function buildController( data ) {
-    let geometry, material;
-    switch (data.targetRayMode) {
-        case 'tracked-pointer' :
-            geometry = new THREE.BufferGeometry();
-            geometry.setAttribute('position', new THREE.Float32BufferAttribute([0, 0, 0, 0, 0, - 1 ], 3))
-            geometry.setAttribute('color', new THREE.Float32BufferAttribute([0.5, 0.5, 0.5, 0, 0, 0 ], 3))
-            material = new THREE.LineBasicMaterial({ vertexColors : true, blending : THREE.AdditiveBlending })
-            return new THREE.Line(geometry, material)
-        case 'gaze' :
-            geometry = new THREE.RingGeometry(0.02, 0.04, 32).translate( 0, 0, - 1 )
-            material = new THREE.MeshBasicMaterial({opacity : 0.5, transparent : true })
-            return new THREE.Mesh(geometry, material)
-    }
 }

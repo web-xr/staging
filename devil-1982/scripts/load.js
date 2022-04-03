@@ -6,7 +6,7 @@ fetch('./setup.json').then(resp => resp.json()).then(obj => {
     files = files.concat(Object.values(obj.models).map(x => x.source))
     // audio files
     files.push(obj.audio.background.source)
-    files = files.concat(obj.audio.boombox.playlist)
+    files = files.concat(obj.audio.boombox.playlist.filter(x => x !== null))
     // store setup
     setup = obj
     loadLabels()
@@ -17,6 +17,8 @@ let loadLabels = () => {
     document.querySelector('.title_main').innerHTML = setup.loading.title.large
     document.querySelector('.title_auth').innerHTML = setup.loading.title.small
     document.querySelector('.parag_main').innerHTML = setup.loading.description.join('<br><br>')
+    document.querySelector('.splash').style.backgroundImage = `url(${setup.loading.splash})`
+    document.querySelector('#progress').style.display = 'block'
 }
 
 let loadFiles = () => {
@@ -27,12 +29,16 @@ let loadFiles = () => {
         // loaded audio files
         setup.audio.background.source = files[index++]
         setup.audio.boombox.playlist = files.splice(index, setup.audio.boombox.playlist.length)
+        // null index for mute
+        setup.audio.boombox.playlist.push(null)
         // setup canvas before rendering
         loadCanvas(setup, files)
+        loadScreen(setup.loading.total)
     }, loadScreen)
 }
 
 let loadScreen = crr => {
+    eval(`console.log("LOADING...", ${crr})`)
     let e = document.querySelector('#progress')
     let w = e.getBoundingClientRect().width
     let s = w * (crr / setup.loading.total)
