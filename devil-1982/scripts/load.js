@@ -42,15 +42,16 @@ let loadScreen = crr => {
     let e = document.querySelector('#progress')
     let w = e.getBoundingClientRect().width
     let s = w * (crr / setup.loading.total)
-    e.style.boxShadow = `inset ${parseInt(s)}px 0px 0px #111`
+    e.style.boxShadow = `inset ${parseInt(s)}px 0px 0px rgba(255,255,255,0.3)`
     if(crr === setup.loading.total) {
         setTimeout(() => {
             e.style.height = '5vw'
-            e.style.backgroundColor = '#111'
+            e.style.backgroundColor = '#a10d0d'
             setTimeout(() => {
                 e.innerHTML = 'CLICK TO START'
                 e.style.color = '#FFF'
                 e.style.cursor = 'pointer'
+                e.style.boxShadow = `inset ${parseInt(s)}px 0px 0px rgba(255,255,255,0)`
                 e.addEventListener('click', endLoading)
             }, 100)
         }, 800)

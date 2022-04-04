@@ -8,7 +8,7 @@
 body {
     margin: 0px;
     overflow: hidden;
-    background-color: #FFF;
+    background-color: #151515;
 }
 
 #log {
@@ -16,7 +16,7 @@ body {
     z-index: 10;
     top: 10px;
     left: 10px;
-    background-color: #FFF;
+    background-color: #151515;
     color: #000;
     padding: 15px;
     display: none;
@@ -25,7 +25,7 @@ body {
 video { display: none; }
 
 #loading {
-    background-color: #FFF;
+    background-color: #151515;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -49,7 +49,7 @@ video { display: none; }
 .splash {
     width: 60vw;
     height: 100vh;
-    background-color: #FFF;
+    background-color: #151515;
     position: fixed;
     top: 0px;
     left: calc(40vw);
@@ -61,7 +61,7 @@ video { display: none; }
 .details {
     width: calc(40vw - 60px);
     height: calc(100vh - 60px);
-    background-color: #FFF;
+    background-color: #151515;
     padding: 30px;
     font-family: Arial Black;
     position: fixed;
@@ -76,11 +76,13 @@ video { display: none; }
     line-height: 4vw;
     text-align: right;
     margin-top: 15vh;
+    color: #a10d0d;
 }
 
 .title_auth {
     font-size: 2.5vw;
     text-align: right;
+    color: #a10d0d;
 }
 
 .parag_main {
@@ -88,12 +90,13 @@ video { display: none; }
     margin-top: 15px;
     font-family: Arial;
     font-size: 1vw;
+    color: #AAA;
 }
 
 #progress {
     margin: 50px 40px 0px 40px;
     height: 5px;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(255,255,255,0.1);
     text-align: center;
     transition-duration: 0.2s;
     transition-property: height, color;

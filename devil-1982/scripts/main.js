@@ -59,20 +59,6 @@ let checkBound = (method, value) => {
     if(z > boundB) { modules.xr.controls.position.z = boundB }
 }
 
-// xr axes navigate events
-TrinityEngine.createEventXR('axesup', () => {
-    checkBound('translateZ', setup.ground.navigate.xr.speed.walk * -1)
-})
-TrinityEngine.createEventXR('axesdown', () => {
-    checkBound('translateZ', setup.ground.navigate.xr.speed.walk)
-})
-TrinityEngine.createEventXR('axesleft', () => {
-    modules.xr.controls.rotateY(setup.ground.navigate.xr.speed.rotate)
-})
-TrinityEngine.createEventXR('axesright', () => {
-    modules.xr.controls.rotateY(setup.ground.navigate.xr.speed.rotate * -1)
-})
-
 // screen resize setup
 window.addEventListener('resize', function() {
     let w = window.innerWidth;
@@ -105,35 +91,31 @@ let loadModels = () => {
     let bbx = TrinityEngine.findByName(obj.source, 'Boombox')
     modules.boombox = bbx
     modules.boombox.material.transparent = true
-    // mouseenter + highlight object
-    TrinityEngine.createEvent('mouseenter', bbx, function(e) {
+
+    let selectBoombox = () => {
         bbx.material.color.r = 2
         bbx.material.color.g = 2
         bbx.material.color.b = 2
         modules.renderer.domElement.style.cursor = 'pointer'
-    })
-    // mouseleave + remove highlight object
-    TrinityEngine.createEvent('mouseleave', bbx, function(e) {
+    }
+
+    let deselectBoombox = () => {
         bbx.material.color.r = 0.800000011920929
         bbx.material.color.g = 0.800000011920929
         bbx.material.color.b = 0.800000011920929
         modules.renderer.domElement.style.cursor = 'default'
-    })
-    // click + focus object
-    TrinityEngine.createEvent('click', bbx, toggleBoombox)
-    TrinityEngine.createEventXR('firststart', bbx, toggleBoombox)
+    }
 
-    TrinityEngine.createEventXR('focusstart', bbx, () => {
-        bbx.material.color.r = 2
-        bbx.material.color.g = 2
-        bbx.material.color.b = 2
-    })
-    
-    TrinityEngine.createEventXR('focusend', bbx, () => {
-        bbx.material.color.r = 0.800000011920929
-        bbx.material.color.g = 0.800000011920929
-        bbx.material.color.b = 0.800000011920929
-    })
+    // boombox select / deselect
+    TrinityEngine.createEvent('mouseenter', bbx, selectBoombox)
+    TrinityEngine.createEvent('mouseleave', bbx, deselectBoombox)
+    TrinityEngine.createEventXR('device:xr-collide:start', bbx, selectBoombox)
+    TrinityEngine.createEventXR('device:xr-collide:end', bbx, deselectBoombox)
+
+    // boombox play event
+    TrinityEngine.createEvent('click', bbx, toggleBoombox)
+    TrinityEngine.createEventXR('button:x-button:start', bbx, toggleBoombox)
+    TrinityEngine.createEventXR('button:a-button:start', bbx, toggleBoombox)
 }
 
 let loadLights = () => {
@@ -168,8 +150,7 @@ let loadGround = () => {
 
     let moving = false
 
-    // ground hover event
-    TrinityEngine.createEvent('mousemove', ground, function(e) {
+    let showRetical = e => {
         if(!moving) {
             retical.visible = true
             retical.position.set(e.point.x, 0.04, e.point.z)
@@ -178,28 +159,18 @@ let loadGround = () => {
             retical.material.needsUpdate = true
             modules.renderer.domElement.style.cursor = 'pointer'
         }
-    })
+    }
 
-    // ground hover event
-    TrinityEngine.createEvent('mouseleave', ground, function(e) {
+    let hideRetical = e => {
         if(!moving) {
             retical.position.set(e.point.x, -1, e.point.z)
             modules.renderer.domElement.style.cursor = 'default'
         }
-    })
+    }
 
-    window.addEventListener('mousedown', () => { if(!moving) { retical.visible = false } })
-    window.addEventListener('mouseup', () => { if(!moving) { retical.visible = true } })
-
-    modules.retical = retical
-    modules.ground = ground
-
-    // ground click event
-    TrinityEngine.createEvent('click', ground, function(e, d) {
-        // lock retical
+    let playRetical = () => {
         moving = true
         retical.visible = true
-        // tween retical
         TrinityEngine.tweenObject(retical,
             { scale : { x : 3, y : 3, z : 3 } }, 500, 'power1',
             () => retical.visible = false
@@ -207,6 +178,34 @@ let loadGround = () => {
         TrinityEngine.tweenMaterial('VALUE', retical, {
             opacity : 0
         }, 500, 'power1')
+    }
+
+    let unlockRetical = () => {
+        moving = false
+        retical.scale.set(1, 1, 1)
+        retical.material.opacity = 0.2
+        retical.material.needsUpdate = true
+        retical.visible = true
+    }
+
+    // xr axes navigate events
+    TrinityEngine.createEventXR('x-axis:xr-standard-thumbstick', e => {
+        if(moving) { return }
+        let val = setup.ground.navigate.xr.speed.rotate * e['x-axis'] * -1
+        modules.xr.controls.rotateY(val)
+    })
+
+    // show / hide for pointing on ground
+    TrinityEngine.createEvent('mousemove', ground, showRetical)
+    TrinityEngine.createEvent('mouseleave', ground, hideRetical)
+    
+    window.addEventListener('mousedown', () => { if(!moving) { retical.visible = false } })
+    window.addEventListener('mouseup', () => { if(!moving) { retical.visible = true } })
+
+
+    // ground click event
+    TrinityEngine.createEvent('click', ground, function(e, d) {
+        playRetical()
         // tween camera
         TrinityEngine.tweenControls('FIXED', modules.controls,  // type, controls
             { x : e.point.x, z : e.point.z },                   // new target pos
@@ -214,15 +213,38 @@ let loadGround = () => {
             setup.ground.navigate.gl.function,                  // ease function
             () => {                                             // callback
                 modules.controls.rotateSpeed = -0.3
-                // unlock retical
-                moving = false
-                retical.scale.set(1, 1, 1)
-                retical.material.opacity = 0.2
-                retical.material.needsUpdate = true
-                retical.visible = true
+                unlockRetical()
             }
         )
     })
+
+
+
+    TrinityEngine.createEventXR('button:a-button', ground, e => {
+        if(moving) { return }
+        moving = true
+        TrinityEngine.tweenControlsXR(modules.xr.controls,
+            { x : e.point.x, y : modules.xr.controls.position.y, z : e.point.z },
+            e.distance * setup.ground.navigate.xr.speed.walk,
+            setup.ground.navigate.xr.function,
+            () => { moving = false }
+        )
+    })
+    
+
+    TrinityEngine.createEventXR('button:x-button', ground, e => {
+        if(moving) { return }
+        moving = true
+        TrinityEngine.tweenControlsXR(modules.xr.controls,
+            { x : e.point.x, y : modules.xr.controls.position.y, z : e.point.z },
+            e.distance * setup.ground.navigate.xr.speed.walk,
+            setup.ground.navigate.xr.function,
+            () => { moving = false }
+        )
+    })
+
+    modules.retical = retical
+    modules.ground = ground
 }
 
 let loadSounds = () => {
@@ -283,22 +305,6 @@ let createVideoTexture = source => {
 }
 
 let loadVideo = () => {
-    // projector
-    let projector = TrinityEngine.createObject({
-        Box : [1, 1, 1],
-        MeshBasic : {
-            color : '#EEE', map : createVideoTexture(setup.video.projector.source)
-        }
-    }, {
-        position : setup.video.projector.locate,
-        scale : {
-            x : setup.video.projector.locate.a,
-            y : setup.video.projector.locate.b,
-            z : 0.3,
-        }
-    })
-    modules.projector = projector
-    modules.group.add(projector)
     // tv boxes
     let tvmap = createVideoTexture(setup.video.tvbox.source)
     setup.video.tvbox.displays.forEach((position, i) => {
@@ -307,7 +313,7 @@ let loadVideo = () => {
             MeshBasic : { color : '#EEE', map : tvmap }
         }, position)
         modules.scene.add(tvbox)
-        if(i === 1) {
+        if(i === 0) {
             TrinityEngine.checkTransform(tvbox)
             window.tvbox = tvbox
         }
@@ -329,10 +335,5 @@ let playCanvas = () => {
         modules.controls.update()
         modules.xr.update()
         modules.tween.render()
-        if(modules.renderer.xr.isPresenting) {
-            modules.retical.visible = false
-        } else {
-            modules.retical.visible = true
-        }
     })
 }
