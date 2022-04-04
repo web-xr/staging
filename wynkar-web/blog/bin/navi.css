@@ -1,0 +1,107 @@
+.NavbarRoot {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 60px;
+    line-height: 60px;
+    width: 100vw;
+    box-shadow: 0px 2px 3px rgba(0,0,0,0.30);
+    background-color: #1a1a1a;
+    transition-property: height, line-height, background, box-shadow;
+    transition-duration: 0.2s;
+    z-index: 20;
+}
+
+.NavbarRootTop {
+    height: 70px;
+    line-height: 70px;
+    background-color: #1a1a1a;
+    box-shadow: 0px 2px 3px rgba(0,0,0,0.35);
+}
+
+.NavbarRoot > * {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.NavbarLogo {
+    margin-right: calc(100vw - 820px);
+    width: 180px;
+    height: inherit;
+    background-image: url(navbar_logo.png);
+    background-repeat: no-repeat;
+    background-size: auto 45%;
+    background-position: left;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.NavbarMenu {
+    height: inherit;
+    float: right;
+    padding-right: 50px;
+}
+
+.NavbarMenuItem {
+    height: inherit;
+    padding: 0px 30px;
+    text-align: center;
+    display: inline-block;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition-property: color, box-shadow, background;
+    transition-duration: 0.2s;
+    font-size: 15px;
+    font-weight: 300;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+.NavbarMenuItem:hover {
+    color: rgba(255,255,255,0.95);
+    box-shadow: inset 0px -4px 0px #06c;
+    background-color: rgba(255,255,255,0.05);
+}
+
+.NavbarSpace {
+    height: 70px;
+    background-color: #0e0f17;
+}
+
+.NavbarTop {
+    width: 65px;
+    height: 65px;
+    top: calc(100vh - 90px);
+    left: calc(100vw - 90px);
+    position: fixed;
+    z-index: 10;
+    background-color: #111;
+    border-radius: 32.5px;
+    overflow: hidden;
+    transition-duration: 0.3s;
+    transition-property: all;
+    box-shadow: 0px 0px 8px rgba(0,0,0,0.35);
+    background-image: url("data:image/svg+xml,<svg id='svg' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' style='transform: rotate(0deg); fill: rgba(255, 255, 255, 1);'><path d='M12 6.879L4.939 13.939 7.061 16.061 12 11.121 16.939 16.061 19.061 13.939z'></path></svg>");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    cursor: pointer;
+}
+
+.NavbarTopOn {
+    top: calc(100vh - 170px);
+}
+
+@media (orientation: portrait) {
+    .NavbarMenuItem {
+        display: none;
+    }
+    .NavbarLogo {
+        margin: 0px;
+        width: 100vw;
+        background-position: center;
+        background-size: auto 50%;
+    }
+    .NavbarTop {
+        display: none;
+    }
+}

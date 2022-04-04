@@ -1,0 +1,19 @@
+
+body {
+    margin: 0px;
+    touch-action: none;
+    outline: none;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    background-color: #000;
+}
+
+#log {
+    position: fixed;
+    z-index: 10;
+    top: 10px;
+    left: 10px;
+    background-color: #FFF;
+    color: #000;
+    padding: 15px;
+}

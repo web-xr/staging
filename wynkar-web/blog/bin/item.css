@@ -1,0 +1,114 @@
+.listBody {
+    padding: 120px 50px 50px 350px;
+}
+
+.BlogItem {
+    width: 200px;
+    height: 230px;
+    margin: 20px 0px 0px 20px;
+    padding: 14px 14px 8px 14px;
+    display: inline-block;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 15px;
+    transform: scale(0.95);
+    cursor: pointer;
+    transition: transform 0.2s;
+    background-color: #e73e2f;
+    vertical-align: top;
+}
+
+.BlogItem:hover {
+    transform: scale(1);
+}
+
+.BlogItemTitle {
+    font-size: 16px;
+    font-weight: bold;
+    color: #FFF;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+	font-family: 'GothamRounded Bold';
+}
+
+.BlogItemText {
+    text-align: justify;
+    white-space: normal;
+    padding-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+    height: 160px;
+    margin-bottom: 10px;
+}
+
+.BlogItemAuth {
+    background-color: #FFF;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 12px;
+    border: 0.2vw solid #FFF;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+}
+
+.BlogItemAuthName {
+    display: inline-block;
+    font-size: 11px;
+    color: #FFF;
+    vertical-align: top;
+    font-weight: 600;
+    padding-left: 10px;
+    text-align: left;
+}
+
+.BlogItemTitleMore {
+    color: rgba(0,0,0,0.7);
+    text-align: center;
+    line-height: 40px;
+}
+
+.BlogItemMoreBack {
+    background-color: rgba(0,0,0,0.2);
+    background-image: url("data:image/svg+xml,<svg id='svg' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg' style='transform: rotate(0deg); fill: rgba(0, 0, 0, 0.65);'><path fill-rule='evenodd' d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'></path></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 90px auto;
+}
+
+.BlogItemMoreNext {
+    background-color: rgba(0,0,0,0.2);
+    background-image: url("data:image/svg+xml,<svg id='svg' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg' style='transform: rotate(0deg); fill: rgba(41, 41, 41, 0.65);'><path fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'></path></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 90px auto;
+}
+
+@media (max-width: 950px) {
+    .listBody {
+        padding: 120px 50px 50px 50px;
+    }
+}
+
+@media (max-width: 680px) {
+    .listBody {
+        padding: 100px 30px 30px 30px;
+    }
+    .BlogItem {
+        width: auto;
+        height: 180px;
+        display: block;
+    }
+    .BlogItemText {
+        height: 115px;
+        float: left;
+    }
+
+    center {
+        text-align: left;
+        display: inline;
+    }
+}

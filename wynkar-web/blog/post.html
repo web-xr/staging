@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" oncontextmenu="return false;">
+<head>
+    <title>WynkBlog - Let's Learn Augmented Reality!</title>
+	<meta charset="utf-8" />
+	<link rel="icon" href="../favicon.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="bin/bloggerAPI.js"></script>
+    <link rel="stylesheet" href="../fonts/main.css" />
+    <link rel="stylesheet" href="bin/main.css" />
+    <link rel="stylesheet" href="bin/navi.css" />
+    <link rel="stylesheet" href="bin/post.css" />
+</head>
+<body>
+
+    <div class="NavbarRoot NavbarRootTop">
+        <div class="NavbarLogo" url-lang="../blog/"></div>
+        <div class="NavbarMenu">
+            <div class="NavbarMenuItem" url-lang="../blog/">WynkBlog Home</div>
+            <div class="NavbarMenuItem" url-lang="../">WynkAR Home</div>
+        </div>
+    </div>
+
+    <div class="listCover"></div>
+
+    <div class="postInner">
+        <div class="postHead"></div>
+        <div class="postLine"></div>
+        <div class="postBody"></div>
+    </div>
+
+</body>
+<!-- API Handler -->
+<script>
+
+let que = function(e) { return document.querySelector(e); }
+let api = new BloggerAPI('791479127391728969');
+let url = window.location.toString().split('id=')[1];
+let crr = 0;
+
+if(url) {
+    // load specific post
+    api.requestDefault(url.split('&')[0].split('#')[0], loadPost);
+} else {
+    // load post list
+    window.location = '../blog/';
+}
+
+function loadPost(obj) {
+    if(obj === null) { window.location = '../blog/'; }
+    let head = obj.entry.title.$t;
+    let body = obj.entry.content.$t;
+    document.title = head + ' - WynkBlog'
+    que('.postHead').innerHTML = head;
+    que('.postBody').innerHTML = body;
+    que('.postInner').style.display = 'block';
+};
+
+window.addEventListener('load', function() {
+    document.querySelectorAll('.NavbarMenuItem').forEach(function(e) {
+        e.addEventListener('click', function(e) {
+            window.location = e.target.lang;
+        });
+    });
+
+
+    document.querySelectorAll('*[url-lang]').forEach(function(e) {
+        e.addEventListener('click', function(e) {
+            window.location = e.target.getAttribute('url-lang');
+        });
+    });
+
+});
+
+</script>
+</html>

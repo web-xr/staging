@@ -1,0 +1,33 @@
+.postInner {
+    padding: 120px 50px 50px 350px;
+    display: none;
+}
+
+.postHead {
+    font-size: 40px;
+	font-family: 'GothamRounded Bold' !important;
+}
+
+.postLine {
+    height: 3px;
+    background-color: #111;
+    margin: 2vw 0px;
+}
+
+@media (orientation: portrait), (max-width: 950px) {
+    .postInner {
+        padding: 100px 30px 30px 30px;
+        display: none;
+    }
+    
+    .postHead {
+        font-size: 26px;
+        font-family: 'GothamRounded Bold' !important;
+    }
+    
+    .postLine {
+        height: 3px;
+        background-color: #111;
+        margin: 2vw 0px;
+    }
+}
