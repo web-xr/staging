@@ -11,10 +11,11 @@ modules.scene.add(modules.group)
 
 // reduce quality and ambient intensity
 modules.renderer.setPixelRatio(window.devicePixelRatio * 0.8)
-modules.light.intensity = 0.6
+modules.light.intensity = 1
 
 // add hemisphere light
-modules.group.add(new THREE.HemisphereLight(0xffeeb1, 0x080820, 1))
+modules.hlight = new THREE.HemisphereLight(0xffeeb1, 0x080820, 1)
+modules.group.add(modules.hlight)
 
 // setup controls
 TrinityEngine.setupControls(
@@ -120,6 +121,7 @@ let teleportGL = e => {
 let teleportXR = e => {
     if(checkInbound(setup.ground.locate, e)) {
         isMoving = true
+        updateRetical()
         TrinityEngine.tweenControlsXR(modules.xr.controls,
             { x : e.point.x, y : modules.xr.controls.position.y, z : e.point.z },
             e.distance * setup.ground.navigate.xr.speed.walk,
@@ -192,7 +194,6 @@ window.addEventListener('load', () => {
 })
 
 let loadCanvas = (setup_in, files_in) => {
-    console.log(setup.preload.files)
     setup = setup_in
     files = files_in
     loadGround()
@@ -228,12 +229,12 @@ let loadModels = () => {
 }
 
 let loadLights = () => {
-    setup.lights.forEach(obj => {
-        let light = new THREE.PointLight(obj.color, obj.intensity, obj.distance)
-        light.position.set(obj.locate.x, obj.locate.y, obj.locate.z)
-        window.light = light
-        modules.group.add(light)
+    setup.colors.forEach(obj => {
+        let mat = TrinityEngine.findByMaterialName(modules.group, obj.name)
+        mat.color = obj.color
     })
+    modules.light.intensity = setup.lights.ambient.intensity
+    modules.hlight.intensity = setup.lights.hemisphere.intensity
 }
 
 let loadGround = () => {
@@ -336,13 +337,25 @@ let playCanvas = () => {
         setup.audio.boombox.context.play()
     }
     // play videos
-    setup.video.tvbox.displays.forEach(display => {
-        findSource(display.source).image.loop = true
-        findSource(display.source).image.play()
+    setup.video.tvbox.displays.forEach((display, index) => {
+        const video = findSource(display.source).image
+        video.loop = true
+        if(index === 0) {
+            video.addEventListener('play', () => {
+                const audio = setup.video.tvbox.audio.context
+                video.currentTime = 0
+                audio.context.currentTime = 0
+                audio.play()
+            })
+            video.addEventListener('ended', () => {
+                const audio = setup.video.tvbox.audio.context
+                video.currentTime = 0
+                audio.context.currentTime = 0
+                audio.play()
+            })
+        }
+        video.play()
     })
-    setup.video.tvbox.audio.context.play()
-    findSource(setup.video.tvbox.displays[0].source).image.currentTime = 0
-    setup.video.tvbox.audio.context.context.currentTime = 0
     // start render loop
     modules.renderer.setAnimationLoop(() => {
         modules.composer.render()

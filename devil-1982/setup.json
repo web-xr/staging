@@ -2,12 +2,16 @@
 
     "preload" : {
         "files" : {
-            "warehouse" : "models/warehouse/scene.fbx",
+            "warehouse" : "models/warehouse_2/scene.fbx",
             "background" : "audio/background.mp3",
             "boombox_1" : "audio/boombox/track_1.mp3",
-            "tvbox_audio" : "video/tvbox.mp3",
-            "tvbox_1" : "video/tvbox.mp4",
-            "tvbox_2" : "video/glitch.mp4"
+            "tvbox_audio" : "video/intro.mp3",
+            "tvbox_1" : "video/intro.mp4",
+            "tvbox_2" : "video/bottom_tv.mp4",
+            "tvbox_3" : "video/side_tv_1.mp4",
+            "tvbox_4" : "video/side_tv_2.mp4",
+            "tvbox_5" : "video/side_tv_3.mp4",
+            "tvbox_6" : "video/side_tv_4.mp4"
         },
         "count" : 22
     },
@@ -29,7 +33,7 @@
                 "function" : "easeOutSine"
             },
             "xr" : {
-                "speed" : { "walk" : 170, "rotate" : 0.01 },
+                "speed" : { "walk" : 350, "rotate" : 0.01 },
                 "function" : "easeOutSine"
             }
         }
@@ -63,12 +67,32 @@
                 {
                     "source" : "preload.files.tvbox_1",
                     "name" : "TV_Screen_mat_1",
-                    "color" : { "r" : 0.3, "g" : 0.3, "b" : 0.3}
+                    "color" : { "r" : 0.4, "g" : 0.4, "b" : 0.4 }
                 },
                 {
                     "source" : "preload.files.tvbox_2",
                     "name" : "TV_Screen_mat_2",
-                    "color" : { "r" : 0.3, "g" : 0.3, "b" : 0.3}
+                    "color" : { "r" : 0.4, "g" : 0.4, "b" : 0.4 }
+                },
+                {
+                    "source" : "preload.files.tvbox_3",
+                    "name" : "TV_Screen_mat_6",
+                    "color" : { "r" : 0.4, "g" : 0.4, "b" : 0.4 }
+                },
+                {
+                    "source" : "preload.files.tvbox_4",
+                    "name" : "TV_Screen_mat_4",
+                    "color" : { "r" : 0.4, "g" : 0.4, "b" : 0.4 }
+                },
+                {
+                    "source" : "preload.files.tvbox_5",
+                    "name" : "TV_Screen_mat_3",
+                    "color" : { "r" : 0.4, "g" : 0.4, "b" : 0.4 }
+                },
+                {
+                    "source" : "preload.files.tvbox_6",
+                    "name" : "TV_Screen_mat_5",
+                    "color" : { "r" : 0.4, "g" : 0.4, "b" : 0.4 }
                 }
             ]
         }
@@ -85,30 +109,15 @@
         }
     },
 
-    "lights" : [
+    "lights" : {
+        "hemisphere" : { "intensity" : 5 },
+        "ambient" : { "intensity" : 1 }
+    },
+
+    "colors" : [
         {
-            "color" : "#FFFFFF",
-            "locate" : { "x" : 0, "y" : 0.4, "z" : -6 },
-            "intensity" : 20,
-            "distance" : 8
-        },
-        {
-            "color" : "#FFFFFF",
-            "locate" : { "x" : 0, "y" : 3, "z" : -32 },
-            "intensity" : 50,
-            "distance" : 25
-        },
-        {
-            "color" : "#FFFFFF",
-            "locate" : { "x" : 0, "y" : 3, "z" : -50 },
-            "intensity" : 10,
-            "distance" : 25
-        },
-        {
-            "color" : "#FFFFFF",
-            "locate" : { "x" : 0.099, "y" : 2.701, "z" : -61.008 },
-            "intensity" : 10,
-            "distance" : 25
+            "name" : "Painting_mat",
+            "color" : { "r" : 0.2, "g" : 0.2, "b" : 0.2 }
         }
     ]
 
