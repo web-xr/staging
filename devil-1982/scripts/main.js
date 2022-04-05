@@ -339,10 +339,10 @@ let playCanvas = () => {
     setup.video.tvbox.displays.forEach(display => {
         findSource(display.source).image.loop = true
         findSource(display.source).image.play()
-        findSource(display.source).image.currentTime = 0.7
     })
-    setup.video.tvbox.audio.context.context.currentTime = 0
     setup.video.tvbox.audio.context.play()
+    findSource(setup.video.tvbox.displays[0].source).image.currentTime = 0
+    setup.video.tvbox.audio.context.context.currentTime = 0
     // start render loop
     modules.renderer.setAnimationLoop(() => {
         modules.composer.render()
