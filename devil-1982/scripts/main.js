@@ -11,11 +11,6 @@ modules.scene.add(modules.group)
 
 // reduce quality and ambient intensity
 modules.renderer.setPixelRatio(window.devicePixelRatio * 0.8)
-modules.light.intensity = 1
-
-// add hemisphere light
-modules.hlight = new THREE.HemisphereLight(0xffeeb1, 0x080820, 1)
-modules.group.add(modules.hlight)
 
 // setup controls
 TrinityEngine.setupControls(
@@ -138,9 +133,9 @@ let teleportXR = e => {
 
 let selectBoombox = () => {
     let box = modules.boombox
-    box.material.color.r = 2
-    box.material.color.g = 2
-    box.material.color.b = 2
+    box.material.color.r = 1.7
+    box.material.color.g = 1.7
+    box.material.color.b = 1.7
     modules.renderer.domElement.style.cursor = 'pointer'
 }
 
@@ -198,7 +193,6 @@ let loadCanvas = (setup_in, files_in) => {
     files = files_in
     loadGround()
     loadModels()
-    loadLights()
     loadSounds()
 }
 
@@ -308,7 +302,6 @@ let loadTvBoxes = () => {
         let warehouse = findSource(setup.models.warehouse.source)
         let material = TrinityEngine.findByMaterialName(warehouse, display.name)
         material.map = findSource(display.source)
-        material.color = display.color
         material.needsUpdate = true
     })
     // tvsound

@@ -11,9 +11,57 @@
             "tvbox_3" : "video/side_tv_1.mp4",
             "tvbox_4" : "video/side_tv_2.mp4",
             "tvbox_5" : "video/side_tv_3.mp4",
-            "tvbox_6" : "video/side_tv_4.mp4"
+            "tvbox_6" : "video/side_tv_4.mp4",
+
+            "Art_Crates" : "models/warehouse_2/Bake_Textures_V8/Art crates.png",
+            "TV_3" : "models/warehouse_2/Bake_Textures_V8/TV_3.png",
+            "TV_4" : "models/warehouse_2/Bake_Textures_V8/TV_4.png",
+            "Painting" : "models/warehouse_2/Bake_Textures_V8/Painting.png",
+            "Hang" : "models/warehouse_2/Bake_Textures_V8/Roof_bars.png",
+            "Side_wall" : "models/warehouse_2/Bake_Textures_V8/Side_wall.png",
+            "Roof_bars" : "models/warehouse_2/Bake_Textures_V8/Roof_bars.png",
+            "Roof" : "models/warehouse_2/Bake_Textures_V8/Roof.png",
+            "Walls" : "models/warehouse_2/Bake_Textures_V8/Wall.png",
+            "Pillars" : "models/warehouse_2/Bake_Textures_V8/Pillers.png",
+            "Windows" : "models/warehouse_2/Bake_Textures_V8/Window.png",
+            "Floor" : "models/warehouse_2/Bake_Textures_V8/Floor.png",
+            "Boombox" : "models/warehouse_2/Bake_Textures_V8/Boombox.png",
+
+            "TV_7" : "models/warehouse_2/Bake_Textures_V8/TV_1.png",
+            "TV_5" : "models/warehouse_2/Bake_Textures_V8/TV_1.png",
+            "TV_1_1" : "models/warehouse_2/Bake_Textures_V8/TV_1.png",
+            "TV_1_2" : "models/warehouse_2/Bake_Textures_V8/TV_Screen_1.png",
+            "TV_8_1" : "models/warehouse_2/Bake_Textures_V8/TV_2.png",
+            "TV_8_2" : "models/warehouse_2/Bake_Textures_V8/TV_Screen_2.png",
+            "TV_2" : "models/warehouse_2/Bake_Textures_V8/TV_1.png",
+            "TV_6" : "models/warehouse_2/Bake_Textures_V8/TV_1.png"
         },
-        "count" : 22
+        "count" : 43
+    },
+
+    "materials" : [
+        "Art_Crates",
+        "TV_3",
+        "TV_4",
+        "Painting",
+        "Hang",
+        "Side_wall",
+        "Roof_bars",
+        "Roof",
+        "Walls",
+        "Pillars",
+        "Windows",
+        "Floor",
+        "Boombox"
+    ],
+
+    "materials_array" : {
+        "TV_7" : [ "TV_7" ],
+        "TV_5" : [ "TV_5" ],
+        "TV_1" : [ "TV_1_1", "TV_1_2" ],
+        "TV_8" : [ "TV_8_1", "TV_8_2" ],
+        "TV_2" : [ "TV_2" ],
+        "TV_6" : [ "TV_2" ]
     },
 
     "welcome" : {

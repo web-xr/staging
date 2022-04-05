@@ -18,6 +18,29 @@ let loadLabels = () => {
 
 let loadFiles = () => {
     TrinityEngine.loadAll(setup.preload.files, obj => {
+        // replace materials
+
+        // non-array material update
+        setup.materials.forEach(name => {
+            let mesh = TrinityEngine.findByName(obj.warehouse, name)
+            let nmat = new THREE.MeshBasicMaterial()
+            nmat.name = mesh.material.name
+            nmat.map = obj[name]
+            mesh.material = nmat
+            mesh.material.needsUpdate = true
+        })
+
+        Object.keys(setup.materials_array).forEach(name => {
+            let mesh = TrinityEngine.findByName(obj.warehouse, name)
+            setup.materials_array[name].forEach((matname, i) => {
+                let nmat = new THREE.MeshBasicMaterial()
+                nmat.name = mesh.material[i].name
+                nmat.map = obj[matname]
+                mesh.material[i] = nmat
+                mesh.material.needsUpdate = true
+            })
+        })
+
         loadCanvas(setup)
         loadScreen(setup.preload.count)
     }, loadScreen)
