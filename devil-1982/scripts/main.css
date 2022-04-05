@@ -5,6 +5,11 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+@font-face {
+    font-family: 'TitleFont';
+    src: url(./font.woff);
+}
+
 body {
     margin: 0px;
     overflow: hidden;
@@ -77,12 +82,14 @@ video { display: none; }
     text-align: right;
     margin-top: 15vh;
     color: #a10d0d;
+    font-family: 'TitleFont';
 }
 
 .title_auth {
     font-size: 2.5vw;
     text-align: right;
     color: #a10d0d;
+    font-family: 'TitleFont';
 }
 
 .parag_main {

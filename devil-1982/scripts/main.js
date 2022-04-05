@@ -24,6 +24,7 @@ TrinityEngine.setupControls(
     { maxPolarAngle : 1.8, minPolarAngle : 0.8, enableZoom : false }
 )
 
+// restore camera back to gl space
 modules.renderer.xr.addEventListener('sessionend', () => {
     TrinityEngine.setupControls(
         'EXACT', modules.controls,
@@ -33,30 +34,149 @@ modules.renderer.xr.addEventListener('sessionend', () => {
     )
 })
 
-let boundL = 0
-let boundR = 0
-let boundT = 0
-let boundB = 0
+// =========================== retical and movements ===========================
 
-let loadBoundData = () => {
-    const groundX = setup.ground.locate.x
-    const groundZ = setup.ground.locate.z
-    const groundA = setup.ground.locate.a
-    const groundB = setup.ground.locate.b
-    boundL = -((groundA / 2) - groundX)
-    boundR = (groundA / 2) + groundX
-    boundT = -((groundB / 2) - groundZ)
-    boundB = (groundB / 2) + groundZ
+let findSource = x => {
+    if(x === null) {
+        return null
+    } else {
+        return setup.preload.files[x.replace('preload.files.', '')]
+    }
+}
+
+let calculateBound = obj => {
+    return {
+        left : -((obj.a / 2) - obj.x),
+        right : (obj.a / 2) + obj.x,
+        top : -((obj.b / 2) - obj.z),
+        bottom : (obj.b / 2) + obj.z
+    }
+}
+
+let checkInbound = (bounds, e) => {
+    const b =  calculateBound(bounds)
+    const x = e.point.x > b.left && e.point.x < b.right
+    const z = e.point.z > b.top && e.point.z < b.bottom
+    return x && z
+}
+
+let isMoving = false
+
+let updateRetical = (e = null) => {
+    let retical = modules.retical
+    if(!isMoving && e !== null) {
+        // reset retical
+        retical.scale.set(1, 1, 1)
+        retical.visible = true
+        retical.material.opacity = 0.2
+        // set position
+        retical.position.set(e.point.x, 0.1, e.point.z)
+        // blocked check
+        if(checkInbound(setup.ground.locate, e)) {
+            retical.material.color.r = 255
+            retical.material.color.g = 255
+            retical.material.color.b = 255
+        } else {
+            retical.material.color.r = 255
+            retical.material.color.g = 0
+            retical.material.color.b = 0
+        }
+        retical.material.needsUpdate = true
+    } else {
+        // animate retical in current position
+        TrinityEngine.tweenObject(retical,
+            { scale : { x : 3, y : 3, z : 3 } }, 500, 'power1',
+            () => {
+                retical.visible = false
+            }
+        )
+        TrinityEngine.tweenMaterial('VALUE', retical,
+            { opacity : 0 }, 500, 'power1'
+        )
+    }
+}
+
+let hideRetical = () => {
+    modules.retical.visible = false
+}
+
+let teleportGL = e => {
+    if(checkInbound(setup.ground.locate, e)) {
+        isMoving = true
+        updateRetical()
+        TrinityEngine.tweenControls('FIXED', modules.controls,
+            { x : e.point.x, z : e.point.z },
+            e.distance * setup.ground.navigate.gl.speed.walk,
+            setup.ground.navigate.gl.function,
+            () => {
+                modules.controls.rotateSpeed = -0.3
+                modules.retical.visible = true
+                isMoving = false
+            }
+        )
+    }
+}
+
+let teleportXR = e => {
+    if(checkInbound(setup.ground.locate, e)) {
+        isMoving = true
+        TrinityEngine.tweenControlsXR(modules.xr.controls,
+            { x : e.point.x, y : modules.xr.controls.position.y, z : e.point.z },
+            e.distance * setup.ground.navigate.xr.speed.walk,
+            setup.ground.navigate.xr.function,
+            () => {
+                modules.retical.visible = true
+                isMoving = false
+            }
+        )
+    }
+}
+
+// =========================== boombox and playlist ===========================
+
+let selectBoombox = () => {
+    let box = modules.boombox
+    box.material.color.r = 2
+    box.material.color.g = 2
+    box.material.color.b = 2
+    modules.renderer.domElement.style.cursor = 'pointer'
+}
+
+let deselectBoombox = () => {
+    let box = modules.boombox
+    box.material.color.r = 0.800000011920929
+    box.material.color.g = 0.800000011920929
+    box.material.color.b = 0.800000011920929
+    modules.renderer.domElement.style.cursor = 'default'
+}
+
+let toggleBoombox = () => {
+    // get next context index
+    setup.audio.boombox.current++
+    if(setup.audio.boombox.current === setup.audio.boombox.playlist.length) {
+        setup.audio.boombox.current = 0
+    }
+    // stop if playing
+    if(setup.audio.boombox.context.isPlaying) {
+        setup.audio.boombox.context.stop()
+    }
+    // get context
+    const context = findSource(setup.audio.boombox.playlist[setup.audio.boombox.current])
+    if(context !== null) {
+        setup.audio.boombox.context.setBuffer(context)
+        setup.audio.boombox.context.play()
+    }
 }
 
 let checkBound = (method, value) => {
     const x = modules.xr.controls.position.x
     const z = modules.xr.controls.position.z
+    const b = calculateBound(setup.ground.locate)
     modules.xr.controls[method](value)
-    if(x < boundL) { modules.xr.controls.position.x = boundL }
-    if(x > boundR) { modules.xr.controls.position.x = boundR }
-    if(z < boundT) { modules.xr.controls.position.z = boundT }
-    if(z > boundB) { modules.xr.controls.position.z = boundB }
+    if(x < b.left) { modules.xr.controls.position.x = b.left }
+    if(x > b.right) { modules.xr.controls.position.x = b.right }
+    if(z < b.top) { modules.xr.controls.position.z = b.top }
+    if(z > b.bottom) { modules.xr.controls.position.z = b.bottom }
 }
 
 // screen resize setup
@@ -72,39 +192,26 @@ window.addEventListener('load', () => {
 })
 
 let loadCanvas = (setup_in, files_in) => {
+    console.log(setup.preload.files)
     setup = setup_in
     files = files_in
-    loadBoundData()
     loadGround()
     loadModels()
     loadLights()
     loadSounds()
-    loadVideo()
 }
 
 let loadModels = () => {
     // setup warehouse
-    let obj = setup.models.warehouse
-    TrinityEngine.setupObject(obj.source, obj.locate)
-    modules.group.add(obj.source)
+    let warehouse = findSource(setup.models.warehouse.source)
+    TrinityEngine.setupObject(warehouse, setup.models.warehouse.locate)
+    modules.group.add(warehouse)
     // setup boombox
-    let bbx = TrinityEngine.findByName(obj.source, 'Boombox')
+    let bbx = TrinityEngine.findByName(warehouse, 'Boombox')
     modules.boombox = bbx
     modules.boombox.material.transparent = true
 
-    let selectBoombox = () => {
-        bbx.material.color.r = 2
-        bbx.material.color.g = 2
-        bbx.material.color.b = 2
-        modules.renderer.domElement.style.cursor = 'pointer'
-    }
 
-    let deselectBoombox = () => {
-        bbx.material.color.r = 0.800000011920929
-        bbx.material.color.g = 0.800000011920929
-        bbx.material.color.b = 0.800000011920929
-        modules.renderer.domElement.style.cursor = 'default'
-    }
 
     // boombox select / deselect
     TrinityEngine.createEvent('mouseenter', bbx, selectBoombox)
@@ -116,6 +223,8 @@ let loadModels = () => {
     TrinityEngine.createEvent('click', bbx, toggleBoombox)
     TrinityEngine.createEventXR('button:x-button:start', bbx, toggleBoombox)
     TrinityEngine.createEventXR('button:a-button:start', bbx, toggleBoombox)
+
+    loadTvBoxes()
 }
 
 let loadLights = () => {
@@ -130,10 +239,10 @@ let loadLights = () => {
 let loadGround = () => {
     // create and add ground
     let ground = TrinityEngine.createObject({
-        Box : [setup.ground.locate.a, 0.09, setup.ground.locate.b],
+        Box : [30, 0.28, 30],
         MeshBasic : { transparent : true, opacity : 0, color : 'red' }
     }, {
-        position : { x : setup.ground.locate.x, y : 0, z : setup.ground.locate.z },
+        position : { x : 0, y : 0, z : 0 },
         visible : false, name : 'xrground'
     })
     modules.group.add(ground)
@@ -148,112 +257,33 @@ let loadGround = () => {
     })
     modules.scene.add(retical)
 
-    let moving = false
-
-    let showRetical = e => {
-        if(!moving) {
-            retical.visible = true
-            retical.position.set(e.point.x, 0.04, e.point.z)
-            retical.scale.set(1, 1, 1)
-            retical.material.opacity = 0.2
-            retical.material.needsUpdate = true
-            modules.renderer.domElement.style.cursor = 'pointer'
-        }
-    }
-
-    let hideRetical = e => {
-        if(!moving) {
-            retical.position.set(e.point.x, -1, e.point.z)
-            modules.renderer.domElement.style.cursor = 'default'
-        }
-    }
-
-    let playRetical = () => {
-        moving = true
-        retical.visible = true
-        TrinityEngine.tweenObject(retical,
-            { scale : { x : 3, y : 3, z : 3 } }, 500, 'power1',
-            () => retical.visible = false
-        )
-        TrinityEngine.tweenMaterial('VALUE', retical, {
-            opacity : 0
-        }, 500, 'power1')
-    }
-
-    let unlockRetical = () => {
-        moving = false
-        retical.scale.set(1, 1, 1)
-        retical.material.opacity = 0.2
-        retical.material.needsUpdate = true
-        retical.visible = true
-    }
-
     // xr axes navigate events
     TrinityEngine.createEventXR('x-axis:xr-standard-thumbstick', e => {
-        if(moving) { return }
         let val = setup.ground.navigate.xr.speed.rotate * e['x-axis'] * -1
         modules.xr.controls.rotateY(val)
     })
 
-    // show / hide for pointing on ground
-    TrinityEngine.createEvent('mousemove', ground, showRetical)
+    TrinityEngine.createEvent('mousemove', ground, updateRetical)
     TrinityEngine.createEvent('mouseleave', ground, hideRetical)
-    
-    window.addEventListener('mousedown', () => { if(!moving) { retical.visible = false } })
-    window.addEventListener('mouseup', () => { if(!moving) { retical.visible = true } })
+    TrinityEngine.createEventXR('device:xr-collide', ground, updateRetical)
+    TrinityEngine.createEventXR('device:xr-collide:end', ground, hideRetical)
 
-
-    // ground click event
-    TrinityEngine.createEvent('click', ground, function(e, d) {
-        playRetical()
-        // tween camera
-        TrinityEngine.tweenControls('FIXED', modules.controls,  // type, controls
-            { x : e.point.x, z : e.point.z },                   // new target pos
-            e.distance * setup.ground.navigate.gl.speed.walk,   // duration
-            setup.ground.navigate.gl.function,                  // ease function
-            () => {                                             // callback
-                modules.controls.rotateSpeed = -0.3
-                unlockRetical()
-            }
-        )
-    })
-
-
-
-    TrinityEngine.createEventXR('button:a-button', ground, e => {
-        if(moving) { return }
-        moving = true
-        TrinityEngine.tweenControlsXR(modules.xr.controls,
-            { x : e.point.x, y : modules.xr.controls.position.y, z : e.point.z },
-            e.distance * setup.ground.navigate.xr.speed.walk,
-            setup.ground.navigate.xr.function,
-            () => { moving = false }
-        )
-    })
-    
-
-    TrinityEngine.createEventXR('button:x-button', ground, e => {
-        if(moving) { return }
-        moving = true
-        TrinityEngine.tweenControlsXR(modules.xr.controls,
-            { x : e.point.x, y : modules.xr.controls.position.y, z : e.point.z },
-            e.distance * setup.ground.navigate.xr.speed.walk,
-            setup.ground.navigate.xr.function,
-            () => { moving = false }
-        )
-    })
+    TrinityEngine.createEvent('click', ground, teleportGL)
+    TrinityEngine.createEventXR('button:a-button', ground, teleportXR, 'right')
+    TrinityEngine.createEventXR('button:x-button', ground, teleportXR, 'left')
 
     modules.retical = retical
     modules.ground = ground
 }
 
+// audio listener
+let listener = new THREE.AudioListener()
+modules.camera.add(listener)
+
 let loadSounds = () => {
-    // audio listener
-    let listener = new THREE.AudioListener()
-    modules.camera.add(listener)
     // background
     let background = new THREE.Audio(listener)
-    background.setBuffer(setup.audio.background.source)
+    background.setBuffer(findSource(setup.audio.background.source))
     background.setVolume(setup.audio.background.volume)
     background.setLoop(setup.audio.background.loop)
     setup.audio.background.context = background
@@ -267,57 +297,33 @@ let loadSounds = () => {
         MeshBasic : { color : 'red' }
     }, { visible : false, position : setup.audio.boombox.locate })
     modules.group.add(speaker)
-    modules.speaker = speaker
     speaker.onEnded = function() { toggleBoombox() }
     speaker.add(boombox)
     setup.audio.boombox.context = boombox
 }
 
-let toggleBoombox = () => {
-    // get next context index
-    setup.audio.boombox.current++
-    if(setup.audio.boombox.current === setup.audio.boombox.playlist.length) {
-        setup.audio.boombox.current = 0
-    }
-    // stop if playing
-    if(setup.audio.boombox.context.isPlaying) {
-        setup.audio.boombox.context.stop()
-    }
-    // get context
-    const context = setup.audio.boombox.playlist[setup.audio.boombox.current]
-    if(context !== null) {
-        setup.audio.boombox.context.setBuffer(context)
-        setup.audio.boombox.context.play()
-    }
-}
-
-let createVideoTexture = source => {
-    let video = document.createElement('video')
-    video.loop = true
-    video.muted = true
-    video.autoplay = true
-    video.src = source
-    video.play()
-    document.body.appendChild(video)
-    let texture = new THREE.VideoTexture(video)
-    texture.anisotropy = 0.001
-    return texture
-}
-
-let loadVideo = () => {
-    // tv boxes
-    let tvmap = createVideoTexture(setup.video.tvbox.source)
-    setup.video.tvbox.displays.forEach((position, i) => {
-        let tvbox = TrinityEngine.createObject({
-            Box : [1, 1, 1],
-            MeshBasic : { color : '#EEE', map : tvmap }
-        }, position)
-        modules.scene.add(tvbox)
-        if(i === 0) {
-            TrinityEngine.checkTransform(tvbox)
-            window.tvbox = tvbox
-        }
+let loadTvBoxes = () => {
+    setup.video.tvbox.displays.forEach(display => {
+        let warehouse = findSource(setup.models.warehouse.source)
+        let material = TrinityEngine.findByMaterialName(warehouse, display.name)
+        material.map = findSource(display.source)
+        material.color = display.color
+        material.needsUpdate = true
     })
+    // tvsound
+    let tvsound = new THREE.PositionalAudio(listener)
+    tvsound.setBuffer(findSource(setup.video.tvbox.audio.source))
+    tvsound.setRefDistance(setup.video.tvbox.audio.volume)
+    tvsound.setLoop(true)
+    // speaker of the tvsound
+    let speaker = TrinityEngine.createObject({
+        Box : [0.1, 0.1, 0.1],
+        MeshBasic : { color : 'red' }
+    }, { visible : true, position : setup.video.tvbox.audio.locate })
+    modules.group.add(speaker)
+    setup.video.tvbox.audio.context = tvsound
+    speaker.add(tvsound)
+    TrinityEngine.checkTransform(speaker)
 }
 
 let playCanvas = () => {
@@ -329,6 +335,14 @@ let playCanvas = () => {
     if(setup.audio.boombox.autoplay) {
         setup.audio.boombox.context.play()
     }
+    // play videos
+    setup.video.tvbox.displays.forEach(display => {
+        findSource(display.source).image.loop = true
+        findSource(display.source).image.play()
+        findSource(display.source).image.currentTime = 0.7
+    })
+    setup.video.tvbox.audio.context.context.currentTime = 0
+    setup.video.tvbox.audio.context.play()
     // start render loop
     modules.renderer.setAnimationLoop(() => {
         modules.composer.render()

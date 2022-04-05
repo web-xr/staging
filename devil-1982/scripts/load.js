@@ -1,49 +1,35 @@
+let qs = x => document.querySelector(x)
+
 let setup = {}
-let files = []
 
 fetch('./setup.json').then(resp => resp.json()).then(obj => {
-    // model files
-    files = files.concat(Object.values(obj.models).map(x => x.source))
-    // audio files
-    files.push(obj.audio.background.source)
-    files = files.concat(obj.audio.boombox.playlist.filter(x => x !== null))
-    // store setup
     setup = obj
     loadLabels()
     loadFiles()
 })
 
 let loadLabels = () => {
-    document.querySelector('.title_main').innerHTML = setup.loading.title.large
-    document.querySelector('.title_auth').innerHTML = setup.loading.title.small
-    document.querySelector('.parag_main').innerHTML = setup.loading.description.join('<br><br>')
-    document.querySelector('.splash').style.backgroundImage = `url(${setup.loading.splash})`
-    document.querySelector('#progress').style.display = 'block'
+    qs('.title_main').innerHTML = setup.welcome.title.large
+    qs('.title_auth').innerHTML = setup.welcome.title.small
+    qs('.parag_main').innerHTML = setup.welcome.description.join('<br><br>')
+    qs('.splash').style.backgroundImage = `url(${setup.welcome.splash})`
+    qs('#progress').style.display = 'block'
 }
 
 let loadFiles = () => {
-    TrinityEngine.loadAll(files, () => {
-        let index = 0
-        // loaded model files
-        Object.values(setup.models).forEach(obj => obj.source = files[index++])
-        // loaded audio files
-        setup.audio.background.source = files[index++]
-        setup.audio.boombox.playlist = files.splice(index, setup.audio.boombox.playlist.length)
-        // null index for mute
-        setup.audio.boombox.playlist.push(null)
-        // setup canvas before rendering
-        loadCanvas(setup, files)
-        loadScreen(setup.loading.total)
+    TrinityEngine.loadAll(setup.preload.files, obj => {
+        loadCanvas(setup)
+        loadScreen(setup.preload.count)
     }, loadScreen)
 }
 
 let loadScreen = crr => {
     eval(`console.log("LOADING...", ${crr})`)
-    let e = document.querySelector('#progress')
+    let e = qs('#progress')
     let w = e.getBoundingClientRect().width
-    let s = w * (crr / setup.loading.total)
+    let s = w * (crr / setup.preload.count)
     e.style.boxShadow = `inset ${parseInt(s)}px 0px 0px rgba(255,255,255,0.3)`
-    if(crr === setup.loading.total) {
+    if(crr === setup.preload.count) {
         setTimeout(() => {
             e.style.height = '5vw'
             e.style.backgroundColor = '#a10d0d'
@@ -61,9 +47,9 @@ let loadScreen = crr => {
 let endLoading = () => {
     playCanvas()
     setTimeout(() => {
-        let d = document.querySelector('.details')
+        let d = qs('.details')
         d.style.left = 'calc(-40vw - 10px)'
-        let m = document.querySelector('#loading')
+        let m = qs('#loading')
         m.style.opacity = 0
         setTimeout(() => {
             m.style.display = 'none'
