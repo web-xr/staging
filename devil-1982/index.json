@@ -1,0 +1,166 @@
+{
+
+    "preload" : {
+        "files" : {
+            "warehouse" : "media/models/warehouse_10/No textures_Wearehouse_Setup_V10.fbx",
+            "background" : "media/audio/background_sound.mp3",
+            "boombox_1" : "media/audio/boombox_track.mp3",
+
+            "tvbox_audio" : "media/video/tv_top.mp3",
+            "tvbox_top" : "media/video/tv_top.mp4",
+            "tvbox_bottom_left" : "media/video/tv_bottom_left.mp4",
+            "tvbox_bottom_right" : "media/video/tv_bottom_right.mp4",
+            "tvbox_left_top" : "media/video/tvbox_left_top.mp4",
+            "tvbox_left_bottom" : "media/video/tvbox_left_bottom.mp4",
+            "tvbox_right_top" : "media/video/tvbox_right_top.mp4",
+            "tvbox_right_bottom" : "media/video/tvbox_right_bottom.mp4",
+
+            "Art_Crates" : "media/models/warehouse_10/Bake Textures V10/Art crates.png",
+            "Painting" : "media/models/warehouse_10/Bake Textures V10/Painting.png",
+            "Hang" : "media/models/warehouse_10/Bake Textures V10/Roof_bars.png",
+            "Side_wall" : "media/models/warehouse_10/Bake Textures V10/Side_wall.png",
+            "Roof_bars" : "media/models/warehouse_10/Bake Textures V10/Roof_bars.png",
+            "Roof" : "media/models/warehouse_10/Bake Textures V10/Roof.png",
+            "Walls" : "media/models/warehouse_10/Bake Textures V10/Wall.png",
+            "Pillars" : "media/models/warehouse_10/Bake Textures V10/Pillers.png",
+            "Windows" : "media/models/warehouse_10/Bake Textures V10/Window.png",
+            "Floor" : "media/models/warehouse_10/Bake Textures V10/Floor.png",
+            "Boombox" : "media/models/warehouse_10/Bake Textures V10/Boombox.png",
+
+            "TV_1" : "media/models/warehouse_10/Bake Textures V10/TV_1.png",
+            "TV_2" : "media/models/warehouse_10/Bake Textures V10/TV_2.png",
+            "TV_3" : "media/models/warehouse_10/Bake Textures V10/TV_3.png",
+            "TV_4" : "media/models/warehouse_10/Bake Textures V10/TV_4.png"
+        },
+        "count" : 43
+    },
+
+    "materials" : [
+        "Art_Crates",
+        "Painting",
+        "Hang",
+        "Side_wall",
+        "Roof_bars",
+        "Roof",
+        "Walls",
+        "Pillars",
+        "Windows",
+        "Floor",
+        "Boombox"
+    ],
+
+    "materials_array" : {
+        "TV_1" : "TV_1",
+        "TV_2" : "TV_2",
+        "TV_3" : "TV_3",
+        "TV_4" : "TV_4",
+        "TV_5" : "TV_1",
+        "TV_6" : "TV_1",
+        "TV_7" : "TV_1",
+        "TV_8" : "TV_1"
+    },
+
+    "welcome" : {
+        "title" : { "large" : "Devil (1982)", "small" : "Jean-Michel Basquiat" },
+        "description" : [
+            "Jean-Michel Basquiat's Untitled is one of the greatest masterpieces of the modern era. Coming from the esteemed collection of Yusaku Maezawa, this monumental tour de force—one of the largest of the artist's career—leads the New York auction season and will be offered in the Evening Sale of 20th Century & Contemporary Art on 18 May",
+            "Executed in 1982, the watershed year which shot the artist to international stardom, this extraordinary work is from a small series created in Modena, Italy, where Basquiat visited and exhibited at the invitation of the dealer Emilio Mazzoli during two periods in the early 1980s. Three groundbreaking self-portraits that Basquiat executed during the second trip, including Untitled, have made this pivotal chapter one of the most desirable of his career."
+        ],
+        "splash" : "media/images/loading_screen.jpg"
+    },
+
+    "ground" : {
+        "locate" : { "x" : 0, "z" : -5, "a" : 8, "b" : 10 },
+        "navigate" : {
+            "gl" : {
+                "speed" : { "walk" : 150, "rotate" : 0.3 },
+                "function" : "easeOutSine"
+            },
+            "xr" : {
+                "speed" : { "walk" : 6000, "rotate" : 0.01 },
+                "function" : "easeOutSine"
+            }
+        }
+    },
+
+    "audio" : {
+        "background" : {
+            "source" : "preload.files.background",
+            "volume" : 0.8,
+            "loop" : true
+        },
+        "boombox" : {
+            "volume" : 1,
+            "locate" : { "x" : 5.270, "y" : 1.2578, "z" : -6.670 },
+            "current" : -1,
+            "playlist" : [
+                "preload.files.boombox_1",
+                null
+            ]
+        }
+    },
+
+    "video" : {
+        "tvbox" : {
+            "audio" : {
+                "source" : "preload.files.tvbox_audio",
+                "locate" : { "x" : -6.4319, "y" : 1.257, "z" : -5.8700 },
+                "volume" : 0.8
+            },
+            "displays" : [
+                {
+                    "source" : "preload.files.tvbox_top",
+                    "name" : "TV_Screen_mat_02"
+                },
+                {
+                    "source" : "preload.files.tvbox_bottom_left",
+                    "name" : "TV_Screen_mat_01"
+                },
+                {
+                    "source" : "preload.files.tvbox_bottom_right",
+                    "name" : "TV_Screen_mat_04"
+                },
+                {
+                    "source" : "preload.files.tvbox_left_top",
+                    "name" : "TV_Screen_mat_07"
+                },
+                {
+                    "source" : "preload.files.tvbox_left_bottom",
+                    "name" : "TV_Screen_mat_05"
+                },
+                {
+                    "source" : "preload.files.tvbox_right_top",
+                    "name" : "TV_Screen_mat_03"
+                },
+                {
+                    "source" : "preload.files.tvbox_right_bottom",
+                    "name" : "TV_Screen_mat_06"
+                }
+            ]
+        }
+    },
+
+    "models" : {
+        "warehouse" : {
+            "source" : "preload.files.warehouse",
+            "locate" : {
+                "position" : { "x" : 0, "y" : 0, "z" : -14 },
+                "rotation" : { "x" : 0, "y" : 3.141592653589793, "z" : 0 },
+                "scale" : { "x" : 0.013, "y" : 0.013, "z" : 0.013 }
+            }
+        }
+    },
+
+    "lights" : {
+        "hemisphere" : { "intensity" : 5 },
+        "ambient" : { "intensity" : 1 }
+    },
+
+    "colors" : [
+        {
+            "name" : "Painting_mat",
+            "color" : { "r" : 0.2, "g" : 0.2, "b" : 0.2 }
+        }
+    ]
+
+}
