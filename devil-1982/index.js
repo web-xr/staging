@@ -261,9 +261,9 @@ let deselectBoombox = () => {
 
 let selectPainting = () => {
     let box = modules.painting
-    box.material.color.r = 1.1
-    box.material.color.g = 1.1
-    box.material.color.b = 1.1
+    box.material.color.r = 1.3
+    box.material.color.g = 1.3
+    box.material.color.b = 1.3
     modules.renderer.domElement.style.cursor = 'pointer'
 }
 
@@ -272,6 +272,22 @@ let deselectPainting = () => {
     box.material.color.r = 0.800000011920929
     box.material.color.g = 0.800000011920929
     box.material.color.b = 0.800000011920929
+    modules.renderer.domElement.style.cursor = 'default'
+}
+
+let selectTV = () => {
+    let box = modules.tvbox.mesh
+    box.material[0].color.r = 1.7
+    box.material[0].color.g = 1.7
+    box.material[0].color.b = 1.7
+    modules.renderer.domElement.style.cursor = 'pointer'
+}
+
+let deselectTV = () => {
+    let box = modules.tvbox.mesh
+    box.material[0].color.r = 0.800000011920929
+    box.material[0].color.g = 0.800000011920929
+    box.material[0].color.b = 0.800000011920929
     modules.renderer.domElement.style.cursor = 'default'
 }
 
@@ -307,6 +323,17 @@ let locatePainting = e => {
             1000000
         );
 
+    }
+}
+
+let powerTV = () => {
+    if(setup.video.tvbox.audio.context.isPlaying) {
+        modules.tvbox.video.pause()
+        setup.video.tvbox.audio.context.stop()
+        modules.tvbox.video.currentTime = 0
+    } else {
+        modules.tvbox.video.play()
+        setup.video.tvbox.audio.context.play()
     }
 }
 
@@ -346,7 +373,7 @@ let loadModels = () => {
     let warehouse = findSource(setup.models.warehouse.source)
     TrinityEngine.setupObject(warehouse, setup.models.warehouse.locate)
     modules.group.add(warehouse)
-    // setup boombox
+
     let bbx = TrinityEngine.findByName(warehouse, 'Boombox')
 
     // boombox select / deselect
@@ -361,8 +388,9 @@ let loadModels = () => {
     TrinityEngine.createEvent('click', bbx, toggleBoombox)
     TrinityEngine.createEventXR('button:xr-standard-trigger:start', bbx, toggleBoombox)
 
-    // paint transport
     let pnt = TrinityEngine.findByName(warehouse, 'Painting')
+
+    // paint transport
     TrinityEngine.createEvent('mouseenter', pnt, selectPainting)
     TrinityEngine.createEvent('mouseleave', pnt, deselectPainting)
     TrinityEngine.createEventXR('device:xr-collide:start', pnt, selectPainting)
@@ -373,6 +401,19 @@ let loadModels = () => {
     TrinityEngine.createEventXR('button:xr-standard-trigger:start', pnt, locatePainting)
 
     modules.painting = pnt
+
+    // tvbox select / deselect
+    let tvb = TrinityEngine.findByName(warehouse, 'TV_2')
+    TrinityEngine.createEvent('mouseenter', tvb, selectTV)
+    TrinityEngine.createEvent('mouseleave', tvb, deselectTV)
+    TrinityEngine.createEventXR('device:xr-collide:start', tvb, selectTV)
+    TrinityEngine.createEventXR('device:xr-collide:end', tvb, deselectTV)
+
+    // on / off tvbox
+    TrinityEngine.createEvent('click', tvb, powerTV)
+    TrinityEngine.createEventXR('button:xr-standard-trigger:start', tvb, powerTV)
+
+    modules.tvbox = { mesh : tvb }
 
     loadTvBoxes()
 }
@@ -483,26 +524,18 @@ let playCanvas = () => {
     if(setup.audio.boombox.autoplay) {
         setup.audio.boombox.context.play()
     }
-    // play videos
+    // play tv videos
     setup.video.tvbox.displays.forEach((display, index) => {
         const video = findSource(display.source).image
         video.loop = true
-        if(index === 0) {
-            video.addEventListener('play', () => {
-                const audio = setup.video.tvbox.audio.context
-                video.currentTime = 0
-                audio.context.currentTime = 0
-                audio.play()
-            })
-            video.addEventListener('ended', () => {
-                const audio = setup.video.tvbox.audio.context
-                video.currentTime = 0
-                audio.context.currentTime = 0
-                audio.play()
-            })
-        }
         video.play()
+        if(index === 0) {
+            modules.tvbox.audio = setup.video.tvbox.audio.context
+            modules.tvbox.video = video
+        }
     })
+    // play tv sound
+    setup.video.tvbox.audio.context.play()
     // start render loop
     modules.renderer.setAnimationLoop(() => {
         modules.composer.render()
