@@ -32,7 +32,7 @@
             "TV_2" : "media/models/warehouse_11/Bake_Textures_V11/TV_2.png",
             "TV_4" : "media/models/warehouse_11/Bake_Textures_V11/TV_4.png"
         },
-        "count" : 43
+        "count" : 44
     },
 
     "materials" : [
@@ -70,7 +70,7 @@
     },
 
     "ground" : {
-        "locate" : { "x" : 0, "z" : -5, "a" : 8, "b" : 10 },
+        "locate" : { "x" : -0.5, "z" : -6, "a" : 9, "b" : 13 },
         "navigate" : {
             "gl" : {
                 "speed" : { "walk" : 150, "rotate" : 0.3 },
@@ -90,7 +90,7 @@
             "loop" : true
         },
         "boombox" : {
-            "volume" : 1,
+            "volume" : 0.3,
             "locate" : { "x" : 5.270, "y" : 1.2578, "z" : -6.670 },
             "current" : -1,
             "playlist" : [
@@ -105,7 +105,7 @@
             "audio" : {
                 "source" : "preload.files.tvbox_audio",
                 "locate" : { "x" : -6.4319, "y" : 1.257, "z" : -5.8700 },
-                "volume" : 0.8
+                "volume" : 0.3
             },
             "displays" : [
                 {

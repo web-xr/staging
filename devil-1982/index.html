@@ -33,8 +33,42 @@
     <script src="../../source/threejs/libs/motion-controllers.module.js"></script>
     <script src="../../source/gsap/gsap.js"></script>
 </head>
-<body>
+<body oncontextmenu="return false">
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="loading">
+        <div class="details">
+            <div class="title_main">BASQUIAT</div>
+            <div class="title_auth">IN THE METAVERSE</div>
+            <div class="splash_mobile"></div>
+            <div class="parag_main">Phillips is pleased to present Basquiat's Untitled as it has never been seen before, in an immersive virtual environment. Experience this space online, via a mobile device, or through your XR headset, such as Oculus or Vive.</div>
+            <div class="help_box">
+                <div class="help_title">GETTING STARTED</div>
+                <div class="help">
+                    <div class="help_icon help_non_xr">Desktop or Mobile</div>
+                    <div class="help_items">
+                        <li>Click "Start" below</li>
+                        <li>Click and drag your curser to look around</li>
+                        <li>Click on the floor to move</li>
+                    </div>
+                </div>
+                <div class="help">
+                    <div class="help_icon help_xr">XR Headset</div>
+                    <div class="help_items">
+                        <li>Launch <a href="https://phillips.com/basquiat">Phillips.com/Basquiat</a> in your Oculus or Vive headset</li>
+                        <li>Point your controller on the floor</li>
+                        <li>Press the trigger to interact</li>
+                        <li>Move the joystick to rotate</li>
+                    </div>
+                </div>
+            </div>
+            <div id="progress"></div>
+        </div>
+        <div class="splash"></div>
+    </div>
+    <div class="gl_help">
+        Click and drag your curser to look around<br>
+        Click on the floor to move
+    </div>
     <script src="./index.js"></script>
 </body>
 </html>
