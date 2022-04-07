@@ -123,16 +123,12 @@ video { display: none; }
     height: 5vw !important;
 }
 
-.help_box {
-    height: 28vh;
-}
-
 .help_title {
-    padding-top: 30px;
+    padding-top: 4vh;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 700;
     color: #FFF7;
-    padding-bottom: 15px;
+    padding-bottom: 2vh;
     font-size: 1.1vw;
 }
 
@@ -158,10 +154,9 @@ video { display: none; }
 
 .help {
     vertical-align: top;
-    padding: 10px;
+    padding: 1vw;
     color: #FFF5;
     font-size: 1vw;
-    height: 19vh;
     display: none;
 }
 
