@@ -2,7 +2,7 @@
 
     "preload" : {
         "files" : {
-            "warehouse" : "media/models/warehouse_10/No textures_Wearehouse_Setup_V10.fbx",
+            "warehouse" : "media/models/warehouse_11/Wearehouse_Setup_V11.fbx",
             "background" : "media/audio/background_sound.mp3",
             "boombox_1" : "media/audio/boombox_track.mp3",
 
@@ -15,22 +15,22 @@
             "tvbox_right_top" : "media/video/tvbox_right_top.mp4",
             "tvbox_right_bottom" : "media/video/tvbox_right_bottom.mp4",
 
-            "Art_Crates" : "media/models/warehouse_10/Bake Textures V10/Art crates.png",
-            "Painting" : "media/models/warehouse_10/Bake Textures V10/Painting.png",
-            "Hang" : "media/models/warehouse_10/Bake Textures V10/Roof_bars.png",
-            "Side_wall" : "media/models/warehouse_10/Bake Textures V10/Side_wall.png",
-            "Roof_bars" : "media/models/warehouse_10/Bake Textures V10/Roof_bars.png",
-            "Roof" : "media/models/warehouse_10/Bake Textures V10/Roof.png",
-            "Walls" : "media/models/warehouse_10/Bake Textures V10/Wall.png",
-            "Pillars" : "media/models/warehouse_10/Bake Textures V10/Pillers.png",
-            "Windows" : "media/models/warehouse_10/Bake Textures V10/Window.png",
-            "Floor" : "media/models/warehouse_10/Bake Textures V10/Floor.png",
-            "Boombox" : "media/models/warehouse_10/Bake Textures V10/Boombox.png",
+            "Art_Crates" : "media/models/warehouse_11/Bake_Textures_V11/Art crates.png",
+            "Painting" : "media/models/warehouse_11/Bake_Textures_V11/Painting.png",
+            "Hang" : "media/models/warehouse_11/Bake_Textures_V11/Roof_bars.png",
+            "Side_wall" : "media/models/warehouse_11/Bake_Textures_V11/Side_wall.png",
+            "Roof_bars" : "media/models/warehouse_11/Bake_Textures_V11/Roof_bars.png",
+            "Roof" : "media/models/warehouse_11/Bake_Textures_V11/Roof.png",
+            "Walls" : "media/models/warehouse_11/Bake_Textures_V11/Wall.png",
+            "Pillars" : "media/models/warehouse_11/Bake_Textures_V11/Pillers.png",
+            "Windows" : "media/models/warehouse_11/Bake_Textures_V11/Window.png",
+            "Floor" : "media/models/warehouse_11/Bake_Textures_V11/Floor.png",
+            "Boombox" : "media/models/warehouse_11/Bake_Textures_V11/Boombox.png",
+            "Cable" : "media/models/warehouse_11/Bake_Textures_V11/Cable.png",
 
-            "TV_1" : "media/models/warehouse_10/Bake Textures V10/TV_1.png",
-            "TV_2" : "media/models/warehouse_10/Bake Textures V10/TV_2.png",
-            "TV_3" : "media/models/warehouse_10/Bake Textures V10/TV_3.png",
-            "TV_4" : "media/models/warehouse_10/Bake Textures V10/TV_4.png"
+            "TV_1" : "media/models/warehouse_11/Bake_Textures_V11/TV_1.png",
+            "TV_2" : "media/models/warehouse_11/Bake_Textures_V11/TV_2.png",
+            "TV_4" : "media/models/warehouse_11/Bake_Textures_V11/TV_4.png"
         },
         "count" : 43
     },
@@ -46,13 +46,13 @@
         "Pillars",
         "Windows",
         "Floor",
-        "Boombox"
+        "Boombox",
+        "Cable"
     ],
 
     "materials_array" : {
         "TV_1" : "TV_1",
         "TV_2" : "TV_2",
-        "TV_3" : "TV_3",
         "TV_4" : "TV_4",
         "TV_5" : "TV_1",
         "TV_6" : "TV_1",
@@ -105,7 +105,7 @@
             "audio" : {
                 "source" : "preload.files.tvbox_audio",
                 "locate" : { "x" : -6.4319, "y" : 1.257, "z" : -5.8700 },
-                "volume" : 0.4
+                "volume" : 0.8
             },
             "displays" : [
                 {
