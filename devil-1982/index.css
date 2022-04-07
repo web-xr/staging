@@ -123,6 +123,10 @@ video { display: none; }
     height: 5vw !important;
 }
 
+.help_box {
+    height: 28vh;
+}
+
 .help_title {
     padding-top: 30px;
     font-family: Arial, Helvetica, sans-serif;
@@ -144,27 +148,27 @@ video { display: none; }
     margin-bottom: 2vh;
 }
 
-.help_non_xr {
+.help_non_xr_icon {
     background-image: url(./media/images/non-xr-devices.png);
 }
 
-.help_xr {
+.help_xr_icon {
     background-image: url(./media/images/xr-devices.png);
 }
 
 .help {
-    width: calc(20vw - 60px);
-    display: inline-block;
     vertical-align: top;
     padding: 10px;
     color: #FFF5;
-    font-size: 0.9vw;
+    font-size: 1vw;
     height: 19vh;
+    display: none;
 }
 
 .help_items > li {
-    list-style: none;
+    list-style: disc;
     margin-left: 1vw;
+    line-height: 3vh;
 }
 
 .splash_mobile {
