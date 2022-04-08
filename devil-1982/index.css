@@ -27,7 +27,14 @@ body {
     display: none;
 }
 
-video { display: none; }
+video {
+    width: 10px;
+    height: 10px;
+    position: fixed;
+    z-index: -1;
+    top: -100px;
+    left: -100px;
+}
 
 #loading {
     background-color: #151515;
