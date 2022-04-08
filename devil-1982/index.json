@@ -32,7 +32,7 @@
             "TV_2" : "media/models/warehouse_11/Bake_Textures_V11/TV_2.png",
             "TV_4" : "media/models/warehouse_11/Bake_Textures_V11/TV_4.png"
         },
-        "count" : 44
+        "count" : 45
     },
 
     "materials" : [
@@ -86,7 +86,7 @@
     "audio" : {
         "background" : {
             "source" : "preload.files.background",
-            "volume" : 0.8,
+            "volume" : 1,
             "loop" : true
         },
         "boombox" : {
@@ -105,7 +105,7 @@
             "audio" : {
                 "source" : "preload.files.tvbox_audio",
                 "locate" : { "x" : -6.4319, "y" : 1.257, "z" : -5.8700 },
-                "volume" : 0.3
+                "volume" : 0.2
             },
             "displays" : [
                 {
