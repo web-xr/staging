@@ -88,10 +88,11 @@ video { display: none; }
 }
 
 .title_auth {
-    font-size: 2.1vw;
+    font-size: 1.8vw;
     text-align: center;
     color: #a10d0d;
     font-family: 'TitleFont';
+    margin-top: 1vh;
     margin-bottom: 5vh;
 }
 
@@ -123,15 +124,6 @@ video { display: none; }
     height: 5vw !important;
 }
 
-.help_title {
-    padding-top: 4vh;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 700;
-    color: #FFF7;
-    padding-bottom: 2vh;
-    font-size: 1.1vw;
-}
-
 .help_icon {
     height: 5vh;
     line-height: 5vh;
@@ -153,6 +145,7 @@ video { display: none; }
 }
 
 .help {
+    margin-top: 4vh;
     vertical-align: top;
     padding: 1vw;
     color: #FFF5;
@@ -205,7 +198,7 @@ li > a {
         line-height: initial;
     }
     .title_auth {
-        font-size: 4.5vw;
+        font-size: 4.2vw;
         margin-bottom: 2vh;
     }
     .splash_mobile {
