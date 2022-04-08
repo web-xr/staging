@@ -156,14 +156,15 @@ video {
     vertical-align: top;
     padding: 1vw;
     color: #FFF5;
-    font-size: 1vw;
-    display: none;
+    font-size: 0.9vw;
+    width: calc(19vw - 50px);
+    display: inline-block;
 }
 
 .help_items > li {
     list-style: disc;
     margin-left: 1vw;
-    line-height: 3vh;
+    line-height: 2.5vh;
 }
 
 .splash_mobile {
@@ -188,6 +189,26 @@ li > a {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
     font-weight: 300;
+}
+
+.gl_exit {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    top: 10px;
+    left: 10px;
+    z-index: 5;
+    cursor: pointer;
+    background-image: url(./media/images/close.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 70% 70%;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.gl_exit:hover {
+    opacity: 0.85;
 }
 
 @media (orientation: portrait) {
