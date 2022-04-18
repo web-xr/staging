@@ -88,18 +88,11 @@ orbitView.setImage = index => {
     while(index >= orbitView.loaded.length) { index = index - orbitView.loaded.length }
     // set image
     const root = document.querySelector('#orbitViewRoot')
+    root.style.backgroundSize = `100% auto`
     root.style.backgroundImage = `url(${orbitView.loaded[parseInt(index)]})`
 
    // root.appendChild(orbitView.loaded[parseInt(index)])
 }
-
-
-
-
-
-
-
-
 
 
 

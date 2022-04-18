@@ -6,9 +6,10 @@ body {
 #orbitViewRoot {
     width: 467px;
     height: 336px;
-    background-size: 100% auto;
+    background-size: 80px auto;
     background-position: center;
     background-repeat: no-repeat;
+    background-image: url(./index.svg);
     user-select: none;
     -webkit-user-drag: none;
     cursor: pointer;
