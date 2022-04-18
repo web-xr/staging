@@ -6,10 +6,9 @@ body {
 #orbitViewRoot {
     width: 467px;
     height: 336px;
-    background-size: 80px auto;
+    background-size: 100% auto;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url(./index.svg);
     user-select: none;
     -webkit-user-drag: none;
     cursor: pointer;
@@ -18,12 +17,25 @@ body {
     padding: 60px;
 }
 
-#orbitViewRoot > img {
+#orbitViewHand {
     width: inherit;
-    user-select: none;
-    -webkit-user-drag: none;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: none;
+    height: inherit;
+    background-repeat: no-repeat;
+    background-position: calc(50% - 12.5px) calc(50% - 18px);
+    animation-duration: 1.4s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+.orbitViewGray {
+    filter: grayscale(100%);
+    opacity: 0.8;
+}
+
+@keyframes dragger {
+    0% { background-position: calc(50% - 23.5px) calc(50% - 18px); }
+    50% { background-position: calc(50% - 02.5px) calc(50% - 18px); }
+    100% { background-position: calc(50% - 23.5px) calc(50% - 18px); }
 }
 
 @media (orientation: portrait) {

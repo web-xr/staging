@@ -1,106 +1,126 @@
-const orbitView = {
-    speed : 0.12,
-    index : 0
+const orbitView = { mode : '360', index : 0, speed : 0.12 }
+
+orbitView.showLoading = (array) => {
+    const root = orbitView.element
+    const load = root.querySelector('div')
+    root.style.backgroundImage = `url(${array[orbitView.index]})`
+    load.style.backgroundImage = `url(./media/spin.svg)`
+    root.classList.add('orbitViewGray')
+    orbitView.loading = true
 }
 
-orbitView.load = () => {
-    // preload each image
+orbitView.hideLoading = () => {
+    const root = orbitView.element
+    root.classList.remove('orbitViewGray')
+    orbitView.loading = false
+    orbitView.showDragger()
+}
+
+orbitView.showDragger = () => {
+    const load = orbitView.element.querySelector('div')
+    load.style.animationName = 'dragger'
+    load.style.backgroundImage = 'url(./media/hand.svg)'
+}
+
+orbitView.hideDragger = () => {
+    const root = orbitView.element
+    const load = root.querySelector('div')
+    load.style.animationName = 'none'
+    load.style.backgroundImage = 'none'
+}
+
+orbitView.loadImages = array => {
+    // return if already loading
+    if(orbitView.loading) { return }
+    // start loading
+    orbitView.showLoading(array)
+    // clear image history
+    orbitView.data = []
+    // current loading index
     let index = 0
-    let load = () => {
-        if(index < orbitView.images.length) {
-            // load current imge
-            // let img = new Image()
-            // img.src = orbitView.images[index++]
-            // img.addEventListener('load', load)
-            // orbitView.loaded.push(img)
-
-            var xhr = new XMLHttpRequest()
-            xhr.onload = function() {
-              var reader = new FileReader()
-              reader.onloadend = function() {
-                orbitView.loaded.push(reader.result)
-                load()
-              }
-              reader.readAsDataURL(xhr.response)
+    // image load method
+    const loadImage = () => {
+        if(index < array.length) {
+            // load image
+            const xhreq = new XMLHttpRequest()
+            xhreq.onload = () => {
+                // read using file reader
+                const reader = new FileReader()
+                reader.onloadend = () => {
+                    orbitView.data.push(reader.result)
+                    // load next image
+                    setTimeout(loadImage, 3);
+                }
+                // read content as data url
+                reader.readAsDataURL(xhreq.response)
             }
-            xhr.open('GET', orbitView.images[index++])
-            xhr.responseType = 'blob'
-            xhr.send()
-
-
-
+            // request in blob mode
+            xhreq.open('GET', array[index++])
+            xhreq.responseType = 'blob'
+            xhreq.send()
         } else {
+            // view first frame
+            orbitView.viewFrame(orbitView.index)
             // end loading
-            orbitView.view()
+            orbitView.hideLoading()
         }
     }
-    // start loading
-    orbitView.loaded = []
-    load()
+    loadImage()
 }
 
-orbitView.view = () => {
+orbitView.viewFrame = index => {
+    // image array length
+    const length = orbitView.data.length
+    // round to array index
+    if(orbitView.mode === '360') {
+        while(index < 0) { index = length + index }
+        while(index >= length) { index = index - length }
+    } else {
+        while(index < 0) { index =  orbitView.index = 0 }
+        while(index >= length) { index =  orbitView.index = length - 1 }
+    }
     const root = document.querySelector('#orbitViewRoot')
-    root.addEventListener('mousedown', orbitView.startEvent)
-    root.addEventListener('touchstart', orbitView.startEvent)
-
-    root.addEventListener('mouseleave', orbitView.stopEvent)
-    root.addEventListener('mouseout', orbitView.stopEvent)
-    root.addEventListener('touchend', orbitView.stopEvent)
-    root.addEventListener('mouseup', orbitView.stopEvent)
-
-    root.addEventListener('mousemove', orbitView.animate)
-    root.addEventListener('touchmove', orbitView.animate)
-    orbitView.setImage(0)
+    root.style.backgroundImage = `url(${orbitView.data[parseInt(index)]})`
 }
 
-orbitView.getMovement = event => {
+orbitView.getPosition = event => {
     return event.changedTouches ? event.changedTouches[0].clientX : event.clientX
 }
 
-orbitView.startEvent = event => {
-    orbitView.point = orbitView.getMovement(event)
+orbitView.startRotate = event => {
+    orbitView.hideDragger()
     orbitView.mdown = true
-    console.log('START', orbitView.mdown, orbitView.point)
+    orbitView.point = orbitView.getPosition(event)
 }
 
-orbitView.stopEvent = event => {
+orbitView.stopRotate = event => {
     orbitView.mdown = false
-    orbitView.point = orbitView.getMovement(event)
-    console.log('END', orbitView.mdown, orbitView.point)
+    orbitView.point = orbitView.getPosition(event)
 }
 
-orbitView.animate = event => {
+orbitView.animateRotate = event => {
     if(orbitView.mdown) {
-        console.log('RUN_1', orbitView.mdown, orbitView.point)
-        let point = orbitView.getMovement(event)
+        let point = orbitView.getPosition(event)
         orbitView.index -= (point - orbitView.point) * orbitView.speed
-        orbitView.setImage(orbitView.index)
+        orbitView.viewFrame(orbitView.index)
         orbitView.point = point
-    } else {
-        console.log('RUN_0', orbitView.mdown, orbitView.point)
     }
 }
-
-orbitView.setImage = index => {
-    // fix overflow
-    while(index < 0) { index = orbitView.loaded.length + index }
-    while(index >= orbitView.loaded.length) { index = index - orbitView.loaded.length }
-    // set image
-    const root = document.querySelector('#orbitViewRoot')
-    root.style.backgroundSize = `100% auto`
-    root.style.backgroundImage = `url(${orbitView.loaded[parseInt(index)]})`
-
-   // root.appendChild(orbitView.loaded[parseInt(index)])
-}
-
-
-
-
-
+ 
+// mounted events
 window.addEventListener('load', () => {
-    fetch('./index.json').then(k => k.json()).then(k => {
-        orbitView.images = k
-        orbitView.load()
-    })
+    const root = document.querySelector('#orbitViewRoot')
+    // start rotate
+    root.addEventListener('mousedown', orbitView.startRotate)
+    root.addEventListener('touchstart', orbitView.startRotate)
+    // animate rotate
+    root.addEventListener('mousemove', orbitView.animateRotate)
+    root.addEventListener('touchmove', orbitView.animateRotate)
+    // end rotate
+    root.addEventListener('mouseleave', orbitView.stopRotate)
+    root.addEventListener('mouseout', orbitView.stopRotate)
+    root.addEventListener('touchend', orbitView.stopRotate)
+    root.addEventListener('mouseup', orbitView.stopRotate)
+
+    orbitView.element = root
 })
