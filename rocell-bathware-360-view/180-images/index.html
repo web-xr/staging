@@ -5,7 +5,7 @@
     <script>
         window.addEventListener('load', () => {
             fetch('./index.json').then(resp => resp.json()).then(array => {
-                orbitView.loadImages('180', array, 20, 0.12)
+                orbitView.loadImages('180', array, 9, 0.12)
             })
         })
     </script>
