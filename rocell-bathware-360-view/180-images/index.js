@@ -5,6 +5,7 @@ orbitView.showLoading = (array) => {
     const load = root.querySelector('div')
     root.style.backgroundImage = `url(${array[orbitView.index]})`
     load.style.backgroundImage = `url(./media/spin.svg)`
+    load.style.animationName = 'none'
     root.classList.add('orbitViewGray')
     orbitView.loading = true
 }
@@ -62,7 +63,7 @@ orbitView.loadImages = (mode, array, start, speed) => {
             // view first frame
             orbitView.viewFrame(orbitView.index)
             // end loading
-            orbitView.hideLoading()
+            setTimeout(orbitView.hideLoading, 1400)
         }
     }
     loadImage()
