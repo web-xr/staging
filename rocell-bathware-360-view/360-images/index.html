@@ -1,0 +1,26 @@
+<head>
+    <script src="./index.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=-1">
+    <link rel="stylesheet" href="./index.css">
+    <script>
+        window.addEventListener('load', () => {
+            fetch('./index.json').then(resp => resp.json()).then(array => {
+                if(location.toString().indexOf('mode=180') > -1) {
+                    array = array.splice(40)
+                    orbitView.loadImages('180', array, 20, 0.12)
+                } else {
+                    orbitView.loadImages('360', array, 60, 0.12)
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="buttons">
+        <a href="?mode=180"><button>180 Mode</button></a>
+        <a href="?mode=360"><button>360 Mode</button></a>
+    </div>
+    <div id="orbitViewRoot">
+        <div id="orbitViewHand"></div>
+    </div>
+</body>

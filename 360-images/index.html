@@ -1,25 +1,3 @@
-<head>
-    <script src="./index.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=-1">
-    <link rel="stylesheet" href="./index.css">
-    <script>
-        window.addEventListener('load', () => {
-            fetch('./index.json').then(resp => resp.json()).then(json => {
-                if(location.toString().indexOf('mode=180') > -1) {
-                    orbitView.mode = '180'
-                    orbitView.index = 20
-                    orbitView.loadImages(json.splice(40))
-                } else {
-                    orbitView.mode = '360'
-                    orbitView.index = 60
-                    orbitView.loadImages(json)
-                }
-            })
-        })
-    </script>
-</head>
-<body>
-    <div id="orbitViewRoot">
-        <div id="orbitViewHand"></div>
-    </div>
-</body>
+<script>
+    location = '../rocell-bathware-360-view'
+</script>

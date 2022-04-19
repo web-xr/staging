@@ -1,0 +1,19 @@
+<head>
+    <link rel="stylesheet" href="./index.css">
+    <!-- three.js -->
+    <script src="./three/three.min.js"></script>
+    <script src="./three/OrbitControls.js"></script>
+    <script src="./three/GLTFLoader.js"></script>
+    <!-- engine.js -->
+    <script src="./index.js"></script>
+</head>
+<body>
+    <div id="orbit-view">
+        <div id="orbit-view-cnv"></div>
+        <div id="orbit-view-bl" class="orbit-view-b"></div>
+        <div id="orbit-view-br" class="orbit-view-b"></div>
+    </div>
+    <script>
+        orbitView.init("./index.glb")
+    </script>
+</body>

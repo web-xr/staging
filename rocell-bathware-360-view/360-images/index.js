@@ -10,26 +10,26 @@ orbitView.showLoading = (array) => {
 }
 
 orbitView.hideLoading = () => {
-    const root = orbitView.element
-    root.classList.remove('orbitViewGray')
+    orbitView.element.classList.remove('orbitViewGray')
     orbitView.loading = false
     orbitView.showDragger()
 }
 
 orbitView.showDragger = () => {
-    const load = orbitView.element.querySelector('div')
-    load.style.animationName = 'dragger'
-    load.style.backgroundImage = 'url(./media/hand.svg)'
+    orbitView.loader.style.animationName = 'dragger'
+    orbitView.loader.style.backgroundImage = 'url(./media/hand.svg)'
 }
 
 orbitView.hideDragger = () => {
-    const root = orbitView.element
-    const load = root.querySelector('div')
-    load.style.animationName = 'none'
-    load.style.backgroundImage = 'none'
+    orbitView.loader.style.animationName = 'none'
+    orbitView.loader.style.backgroundImage = 'none'
 }
 
-orbitView.loadImages = array => {
+orbitView.loadImages = (mode, array, start, speed) => {
+    // update settings
+    orbitView.mode = mode
+    orbitView.speed = speed || array.length / 800
+    orbitView.index = start || 0
     // return if already loading
     if(orbitView.loading) { return }
     // start loading
@@ -94,12 +94,14 @@ orbitView.startRotate = event => {
 }
 
 orbitView.stopRotate = event => {
+    orbitView.hideDragger()
     orbitView.mdown = false
     orbitView.point = orbitView.getPosition(event)
 }
 
 orbitView.animateRotate = event => {
     if(orbitView.mdown) {
+        orbitView.hideDragger()
         let point = orbitView.getPosition(event)
         orbitView.index -= (point - orbitView.point) * orbitView.speed
         orbitView.viewFrame(orbitView.index)
@@ -123,4 +125,5 @@ window.addEventListener('load', () => {
     root.addEventListener('mouseup', orbitView.stopRotate)
 
     orbitView.element = root
+    orbitView.loader = root.querySelector('div')
 })
