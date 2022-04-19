@@ -233,7 +233,7 @@ li > a {
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
-        background-image: url(./media/images/loading_screen.png);
+        background-image: url(./media/images/loading_screen.jpg);
         height: calc(45vh);
         display: block;
     }
