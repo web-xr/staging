@@ -89,14 +89,12 @@ orbitView.getPosition = event => {
 
 orbitView.startRotate = event => {
     if(orbitView.loading) { return }
-    orbitView.hideDragger()
     orbitView.mdown = true
     orbitView.point = orbitView.getPosition(event)
 }
 
 orbitView.stopRotate = event => {
     if(orbitView.loading) { return }
-    orbitView.hideDragger()
     orbitView.mdown = false
     orbitView.point = orbitView.getPosition(event)
 }
