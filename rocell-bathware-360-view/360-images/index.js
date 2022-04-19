@@ -88,18 +88,21 @@ orbitView.getPosition = event => {
 }
 
 orbitView.startRotate = event => {
+    if(orbitView.loading) { return }
     orbitView.hideDragger()
     orbitView.mdown = true
     orbitView.point = orbitView.getPosition(event)
 }
 
 orbitView.stopRotate = event => {
+    if(orbitView.loading) { return }
     orbitView.hideDragger()
     orbitView.mdown = false
     orbitView.point = orbitView.getPosition(event)
 }
 
 orbitView.animateRotate = event => {
+    if(orbitView.loading) { return }
     if(orbitView.mdown) {
         orbitView.hideDragger()
         let point = orbitView.getPosition(event)
@@ -108,7 +111,7 @@ orbitView.animateRotate = event => {
         orbitView.point = point
     }
 }
- 
+
 // mounted events
 window.addEventListener('load', () => {
     const root = document.querySelector('#orbitViewRoot')
