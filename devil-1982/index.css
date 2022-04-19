@@ -68,15 +68,15 @@ video {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url(./media/images/loading_screen.png);
+    background-image: url(./media/images/loading_screen.jpg);
     z-index: 11;
 }
 
 .details {
-    width: calc(40vw - 60px);
-    height: calc(100vh - 60px);
+    width: calc(40vw - 4vw);
+    height: calc(100vh - 4vh);
     background-color: #151515;
-    padding: 30px;
+    padding: 2vh 2vw;
     font-family: Arial, Helvetica, sans-serif;
     position: fixed;
     z-index: 3;
@@ -157,7 +157,7 @@ video {
     padding: 1vw;
     color: #FFF5;
     font-size: 0.9vw;
-    width: calc(19vw - 50px);
+    width: calc(15vw);
     display: inline-block;
 }
 
