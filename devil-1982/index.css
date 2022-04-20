@@ -1,5 +1,4 @@
 * {
-    touch-action: none;
     outline: none;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
@@ -14,6 +13,10 @@ body {
     margin: 0px;
     overflow: hidden;
     background-color: #151515;
+}
+
+canvas {
+    touch-action: none;
 }
 
 #log {
@@ -222,7 +225,7 @@ li > a {
     }
     .title_main {
         font-size: 12vw;
-        margin-top: 4vh;
+        margin-top: 3vh;
         line-height: initial;
     }
     .title_auth {
@@ -234,18 +237,29 @@ li > a {
         background-repeat: no-repeat;
         background-size: cover;
         background-image: url(./media/images/loading_screen.jpg);
-        height: calc(45vh);
+        height: calc(26vh);
         display: block;
     }
     .parag_main {
-        padding: 2vw 5vw;
-        font-size: 3.2vw;
+        padding: 2vw 5vw 0vw 5vw;
+        font-size: 3vw;
     }
-    .help_box {
-        display: none;
+    .help {
+        margin-top: 0px;
+        width: 41vw;
+        padding: 3vw 0vw 5vw 5vw;
+    }
+    .help_icon {
+        font-size: 2.5vw;
+        line-height: 4vh;
+        height: 4vh;
+    }
+    .help_items > li {
+        font-size: 2.5vw;
+        line-height: 3.5vw;
     }
     #progress {
-        margin: 6vh 12vw;
+        margin: 2vh 12vw;
     }
     .loaded {
         line-height: 12vw !important;

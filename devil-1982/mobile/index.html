@@ -1,0 +1,40 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0px;
+        }
+        iframe {
+            border: none;
+            width: 100vw;
+            height: 140vw;
+        }
+        div {
+            height: 20vh;
+            line-height: 20vh;
+            text-align: center;
+            border: 2px solid #222;
+            background-color: #1112;
+        }
+    </style>
+    <script>
+        window.addEventListener('load', () => {
+            document.querySelector('iframe').src = '../index.html?' + Date.now()
+        })
+    </script>
+</head>
+<body>
+    <div>
+        IFrame width = 100vw, height = 140vw
+    </div>
+    <div>
+        IFrame width = 100vw, height = 140vw
+    </div>
+    <iframe></iframe>
+    <div>
+        IFrame width = 100vw, height = 140vw
+    </div>
+    <div>
+        IFrame width = 100vw, height = 140vw
+    </div>
+</body>
