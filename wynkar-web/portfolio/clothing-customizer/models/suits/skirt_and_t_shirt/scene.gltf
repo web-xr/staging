@@ -1,0 +1,466 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v1.6.16",
+        "version" : "2.0"
+    },
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                5
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "Object_2"
+        },
+        {
+            "mesh" : 1,
+            "name" : "Object_3"
+        },
+        {
+            "mesh" : 2,
+            "name" : "Object_4"
+        },
+        {
+            "mesh" : 3,
+            "name" : "Object_5"
+        },
+        {
+            "children" : [
+                0,
+                1,
+                2,
+                3
+            ],
+            "name" : "skirt+t-shirt.obj.cleaner.materialmerger.gles"
+        },
+        {
+            "children" : [
+                4
+            ],
+            "name" : "Sketchfab_model",
+            "rotation" : [
+                -0.7071068286895752,
+                0,
+                0,
+                0.7071068286895752
+            ],
+            "scale" : [
+                0.003185225883498788,
+                0.0031852261163294315,
+                0.0031852261163294315
+            ],
+            "translation" : [
+                0,
+                -3.19711971282959,
+                0
+            ]
+        }
+    ],
+    "materials" : [
+        {
+            "alphaCutoff" : 0.025909099727869034,
+            "alphaMode" : "MASK",
+            "doubleSided" : true,
+            "name" : "PT_FABRIC_FRONT_12672",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.953181803226471,
+                    0.953181803226471,
+                    0.953181803226471,
+                    1
+                ],
+                "baseColorTexture" : {
+                    "index" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.9827475547790527
+            }
+        },
+        {
+            "doubleSided" : true,
+            "name" : "pocket_FRONT_4391",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.8385478854179382
+            }
+        },
+        {
+            "doubleSided" : true,
+            "name" : "skirt_FRONT_4383",
+            "normalTexture" : {
+                "index" : 1
+            },
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 2
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.8621141910552979
+            }
+        },
+        {
+            "doubleSided" : true,
+            "name" : "t-shirt_FRONT_4377",
+            "normalTexture" : {
+                "index" : 3
+            },
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0,
+                    0,
+                    0,
+                    1
+                ],
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.9827475547790527
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Object_0",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1,
+                        "TEXCOORD_0" : 2
+                    },
+                    "indices" : 3,
+                    "material" : 0
+                }
+            ]
+        },
+        {
+            "name" : "Object_1",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 4,
+                        "NORMAL" : 5,
+                        "TEXCOORD_0" : 6
+                    },
+                    "indices" : 7,
+                    "material" : 1
+                }
+            ]
+        },
+        {
+            "name" : "Object_2",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 8,
+                        "NORMAL" : 9,
+                        "TEXCOORD_0" : 10
+                    },
+                    "indices" : 11,
+                    "material" : 2
+                }
+            ]
+        },
+        {
+            "name" : "Object_3",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 12,
+                        "NORMAL" : 13,
+                        "TEXCOORD_0" : 14
+                    },
+                    "indices" : 15,
+                    "material" : 3
+                }
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        },
+        {
+            "sampler" : 1,
+            "source" : 1
+        },
+        {
+            "sampler" : 1,
+            "source" : 2
+        },
+        {
+            "sampler" : 1,
+            "source" : 3
+        }
+    ],
+    "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "PT_FABRIC_FRONT_12672_baseColor",
+            "uri" : "PT_FABRIC_FRONT_12672_baseColor.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "skirt_FRONT_4383_normal",
+            "uri" : "skirt_FRONT_4383_normal.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "skirt_FRONT_4383_baseColor",
+            "uri" : "skirt_FRONT_4383_baseColor.png"
+        },
+        {
+            "mimeType" : "image/png",
+            "name" : "t-shirt_FRONT_4377_normal",
+            "uri" : "t-shirt_FRONT_4377_normal.png"
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 104,
+            "max" : [
+                144.00961303710938,
+                12.570189476013184,
+                1455.827392578125
+            ],
+            "min" : [
+                38.480079650878906,
+                -56.5069465637207,
+                1359.4915771484375
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 104,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 104,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5123,
+            "count" : 453,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5126,
+            "count" : 66,
+            "max" : [
+                143.93858337402344,
+                -1.4807169437408447,
+                1398.8367919921875
+            ],
+            "min" : [
+                50.384735107421875,
+                -77.98471069335938,
+                1296.6693115234375
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 5,
+            "componentType" : 5126,
+            "count" : 66,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 6,
+            "componentType" : 5126,
+            "count" : 66,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 7,
+            "componentType" : 5123,
+            "count" : 312,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 8,
+            "componentType" : 5126,
+            "count" : 7096,
+            "max" : [
+                293.3799743652344,
+                244.68698120117188,
+                1167.5482177734375
+            ],
+            "min" : [
+                -246.2050018310547,
+                -168.06845092773438,
+                510.6217041015625
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 9,
+            "componentType" : 5126,
+            "count" : 7096,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 10,
+            "componentType" : 5126,
+            "count" : 7096,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 11,
+            "componentType" : 5123,
+            "count" : 41151,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 12,
+            "componentType" : 5126,
+            "count" : 2877,
+            "max" : [
+                266.5413513183594,
+                171.63270568847656,
+                1508.762451171875
+            ],
+            "min" : [
+                -225.92210388183594,
+                -92.02953338623047,
+                932.2615356445312
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 13,
+            "componentType" : 5126,
+            "count" : 2877,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 14,
+            "componentType" : 5126,
+            "count" : 2877,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 15,
+            "componentType" : 5123,
+            "count" : 15660,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 1248,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 1248,
+            "byteOffset" : 1248
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 832,
+            "byteOffset" : 2496
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 906,
+            "byteOffset" : 3328
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 792,
+            "byteOffset" : 4236
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 792,
+            "byteOffset" : 5028
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 528,
+            "byteOffset" : 5820
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 624,
+            "byteOffset" : 6348
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 85152,
+            "byteOffset" : 6972
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 85152,
+            "byteOffset" : 92124
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 56768,
+            "byteOffset" : 177276
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 82302,
+            "byteOffset" : 234044
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 34524,
+            "byteOffset" : 316348
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 34524,
+            "byteOffset" : 350872
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 23016,
+            "byteOffset" : 385396
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 31320,
+            "byteOffset" : 408412
+        }
+    ],
+    "samplers" : [
+        {
+            "magFilter" : 9729,
+            "minFilter" : 9987,
+            "wrapS" : 33071,
+            "wrapT" : 33071
+        },
+        {
+            "magFilter" : 9729,
+            "minFilter" : 9987
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 439732,
+            "uri" : "scene.bin"
+        }
+    ]
+}
